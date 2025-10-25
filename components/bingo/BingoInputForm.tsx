@@ -33,7 +33,7 @@ export function BingoInputForm({ onSubmit, onCancel }: Props) {
                 onChange={(e) => setValue(e.target.value)}
             />
             <div className="flex justify-end gap-2">
-                <Button type="button" onClick={handleCancel} className="bg-white text-black">취소</Button>
+                <Button type="button" onClick={handleCancel} className="bg-white text-black hover:bg-gray-200">취소</Button>
                 <Button type="submit" onClick={handleSubmit}>추가</Button>
             </div>
         </form>
