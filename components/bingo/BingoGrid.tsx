@@ -4,6 +4,7 @@ import { useModal } from "@/hooks/useModal";
 import { nanoid } from "nanoid";
 import { useState } from "react";
 import { BingoInputForm } from "./BingoInputForm";
+import BingoGridItem from "./BingoGridItem";
 
 interface BingoItem {
     id: string;
@@ -59,24 +60,13 @@ export default function BingoGrid() {
         <>
             <div className="grid gap-2 grid-cols-3">
                 {bingoItems.map((item, idx) => (
-                    <div key={idx} className="aspect-square rounded-lg border-2 transition-all duration-300 cursor-pointer overflow-y-auto py-4">
-                        <div className="p-3 flex flex-col items-center justify-center text-center h-full"
-                            onClick={() => handlAddItem(idx)}>
-                            <p className="text-muted-foreground text-sm">
-                                {item.content || "+"}
-                            </p>
-                        </div>
-                    </div>
+                    <BingoGridItem
+                        key={idx}
+                        id={idx}
+                        content={item.content}
+                        onClick={handlAddItem}
+                    />
                 ))}
-
-                {/* <div className="aspect-square rounded-lg border-2 transition-all duration-300 cursor-pointer">
-                <div className="p-3 flex flex-col items-center justify-center text-center h-full">
-                    <p className="text-muted-foreground text-sm">
-                        클릭하여 추가
-                    </p>
-                </div>
-            </div> */}
-
             </div>
         </>
     );
