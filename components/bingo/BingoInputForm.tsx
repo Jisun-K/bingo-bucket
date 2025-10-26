@@ -1,26 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 
 type Props = {
+    initValue?: string;
     onSubmit: (value: string) => void;
     onCancel: () => void;
 };
 
 
-export function BingoInputForm({ onSubmit, onCancel }: Props) {
-    const [value, setValue] = useState("");
+export function BingoInputForm({ initValue = "", onSubmit, onCancel }: Props) {
+    const [value, setValue] = useState(initValue);
+
+    useEffect(() => {
+        setValue(initValue);
+    }, [initValue]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        if (!value.trim()) return;
         onSubmit(value);
         setValue("");
     };
 
     const handleCancel = () => {
         onCancel();
-        setValue("");
+        setValue(initValue);
     };
 
     return (
@@ -34,7 +40,7 @@ export function BingoInputForm({ onSubmit, onCancel }: Props) {
             />
             <div className="flex justify-end gap-2">
                 <Button type="button" onClick={handleCancel} className="bg-white text-black hover:bg-gray-200">취소</Button>
-                <Button type="submit" onClick={handleSubmit}>추가</Button>
+                <Button type="submit" onClick={handleSubmit}>{value === "" ? "추가" : "수정"} </Button>
             </div>
         </form>
     );

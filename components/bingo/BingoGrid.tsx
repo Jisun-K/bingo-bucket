@@ -43,13 +43,14 @@ export default function BingoGrid() {
         modal.close();
     }
 
-    const handlAddItem = (id: number) => {
+    const handlAddItem = (item: BingoItem) => {
         modal.open({
             title: "목표 추가하기",
             description: "이루고 싶은 목표를 작성해서 빙고를 완성해보세요!",
             children: (
                 <BingoInputForm
-                    onSubmit={(value) => { handlSubmit(id, value) }}
+                    initValue={item.content}
+                    onSubmit={(value) => { handlSubmit(item.order, value) }}
                     onCancel={() => modal.close()}
                 />
             )
@@ -57,17 +58,16 @@ export default function BingoGrid() {
     };
 
     return (
-        <>
-            <div className="grid gap-2 grid-cols-3">
-                {bingoItems.map((item, idx) => (
-                    <BingoGridItem
-                        key={idx}
-                        id={idx}
-                        content={item.content}
-                        onClick={handlAddItem}
-                    />
-                ))}
-            </div>
-        </>
+        <div className="grid gap-2 grid-cols-3">
+            {bingoItems.map((item, idx) => (
+                <BingoGridItem
+                    key={idx}
+                    id={item.id}
+                    order={item.order}
+                    content={item.content}
+                    onClick={() => handlAddItem(item)}
+                />
+            ))}
+        </div>
     );
 }
