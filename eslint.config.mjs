@@ -5,13 +5,6 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
     ...nextVitals,
     ...nextTs,
-    // Override default ignores of eslint-config-next.
-    {
-        rules: {
-            // 들여쓰기 4칸으로 설정
-            "indent": ["error", 4],
-        },
-    },
     globalIgnores([
         // Default ignores of eslint-config-next:
         ".next/**",
