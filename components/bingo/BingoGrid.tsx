@@ -5,6 +5,7 @@ import { nanoid } from "nanoid";
 import { useState } from "react";
 import { BingoInputForm } from "./BingoInputForm";
 import BingoGridItem from "./BingoGridItem";
+import { time } from "console";
 
 interface BingoItem {
     id: string;
@@ -24,20 +25,24 @@ export default function BingoGrid() {
         order: index,
         content: '',
         completed: false,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: '',
+        updatedAt: '',
     }));
 
     const [bingoItems, setBingoItems] = useState<BingoItem[]>(initBingo);
 
-    const handleEditItem = (item: BingoItem) => {
+    const openBingoInputModal = (isEdit: boolean, title: string, initValue: string, onSubmit: (value: string) => void) => {
         modal.open({
-            title: "목표 추가하기",
+            title,
             description: "이루고 싶은 목표를 작성해서 빙고를 완성해보세요!",
             children: (
                 <BingoInputForm
-                    initValue={item.content}
-                    onSubmit={(value) => { handlSubmit(item.order, value) }}
+                    initValue={initValue}
+                    isEdit={isEdit}
+                    onSubmit={(value) => {
+                        onSubmit(value);
+                        modal.close();
+                    }}
                     onCancel={() => modal.close()}
                 />
             )
@@ -53,38 +58,44 @@ export default function BingoGrid() {
                     order: item.order,
                     content: '',
                     completed: false,
-                    createdAt: new Date().toISOString(),
-                    updatedAt: new Date().toISOString(),
+                    createdAt: '',
+                    updatedAt: '',
                 };
             }
             return item;
         }));
     }
 
-    const handlSubmit = (order: number, value: string) => {
-        setBingoItems(prevItems => {
-            const newItems = [...prevItems];
-            newItems[order] = {
-                ...newItems[order],
-                content: value,
-                updatedAt: new Date().toISOString(),
-            };
-            return newItems;
+    const handleEditItem = (item: BingoItem) => {
+        openBingoInputModal(true, "목표 수정하기", item.content, (value) => {
+            setBingoItems(prevItems =>
+                prevItems.map(_item =>
+                    _item.id === item.id
+                        ? {
+                            ..._item,
+                            content: value,
+                            updatedAt: new Date().toISOString(),
+                        }
+                        : _item
+                )
+            );
         });
-        modal.close();
     }
 
-    const handlAddItem = (item: BingoItem) => {
-        modal.open({
-            title: "목표 추가하기",
-            description: "이루고 싶은 목표를 작성해서 빙고를 완성해보세요!",
-            children: (
-                <BingoInputForm
-                    initValue={item.content}
-                    onSubmit={(value) => { handlSubmit(item.order, value) }}
-                    onCancel={() => modal.close()}
-                />
-            )
+    const handleAddItem = (item: BingoItem) => {
+        openBingoInputModal(false, "목표 추가하기", item.content, (value) => {
+            setBingoItems(prevItems =>
+                prevItems.map(_item =>
+                    _item.id === item.id
+                        ? {
+                            ..._item,
+                            content: value,
+                            createdAt: new Date().toISOString(),
+                            updatedAt: new Date().toISOString(),
+                        }
+                        : _item
+                )
+            );
         });
     };
 
@@ -96,7 +107,7 @@ export default function BingoGrid() {
                     key={idx}
                     order={item.order}
                     content={item.content}
-                    onClick={() => handlAddItem(item)}
+                    onClick={() => handleAddItem(item)}
                     onEdit={() => handleEditItem(item)}
                     onDelete={() => handleDeleteItem(item.id)}
                 />
