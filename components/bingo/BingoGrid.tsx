@@ -5,8 +5,6 @@ import { nanoid } from "nanoid";
 import { useState } from "react";
 import { BingoInputForm } from "./BingoInputForm";
 import BingoGridItem from "./BingoGridItem";
-import { time } from "console";
-
 export interface BingoItem {
     id: string;
     order: number; // 그리드 칸 순서
@@ -81,6 +79,8 @@ export default function BingoGrid() {
             if (item.id === id) {
                 return {
                     ...item,
+                    parentId: 'sampleBingoId',
+                    order: item.order,
                     content: '',
                     isCompleted: false,
                     createdAt: '',
