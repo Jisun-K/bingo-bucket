@@ -1,10 +1,10 @@
 "use client";
 
-import { useModal } from "@/hooks/useModal";
+import { useModalStore } from "@/store/useModalStore";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 
 export default function Modal() {
-    const { isOpen, title, description, children, close } = useModal();
+    const { isOpen, title, description, children, close } = useModalStore();
 
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && close()}>

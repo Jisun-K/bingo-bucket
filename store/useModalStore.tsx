@@ -10,7 +10,7 @@ interface ModalState {
     close: () => void;
 }
 
-export const useModal = create<ModalState>((set) => ({
+export const useModalStore = create<ModalState>((set) => ({
     isOpen: false,
     open: (props) => set({ isOpen: true, ...props }),
     close: () => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useModal } from "@/hooks/useModal";
+import { useModalStore } from "@/store/useModalStore";
 import { nanoid } from "nanoid";
 import { useState } from "react";
 import { BingoInputForm } from "./BingoInputForm";
@@ -18,7 +18,7 @@ export interface BingoItem {
 }
 
 export default function BingoGrid() {
-    const modal = useModal();
+    const modal = useModalStore();
     const initBingo: BingoItem[] = Array.from({ length: 9 }, (_, index) => ({
         id: nanoid(),
         parentId: 'sampleBingoId',
