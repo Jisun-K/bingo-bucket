@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import { BingoItem } from "./BingoGrid";
 
 type Props = {
@@ -10,8 +10,6 @@ type Props = {
 }
 
 export default function BingoGridItem({ item, onAdd, onEdit, onDelete, onToggleComplete }: Props) {
-    const [checked, setChecked] = useState(item.isCompleted);
-
     const buttons = [
         { action: 'edit', icon: '/icons/ic_modify.svg', alt: '수정', onClick: onEdit },
         { action: 'delete', icon: '/icons/ic_delete.svg', alt: '삭제', onClick: onDelete },

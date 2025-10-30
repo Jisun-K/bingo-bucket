@@ -80,9 +80,7 @@ export default function BingoGrid() {
         setBingoItems(prevItems => prevItems.map(item => {
             if (item.id === id) {
                 return {
-                    id: nanoid(),
-                    parentId: 'sampleBingoId',
-                    order: item.order,
+                    ...item,
                     content: '',
                     isCompleted: false,
                     createdAt: '',
@@ -93,14 +91,14 @@ export default function BingoGrid() {
         }));
     }
 
-    const handleAddItem = (item: BingoItem) => { openBingoInputModal(true, "목표 추가하기", item); }
+    const handleAddItem = (item: BingoItem) => { openBingoInputModal(false, "목표 추가하기", item); }
     const handleEditItem = (item: BingoItem) => { openBingoInputModal(true, "목표 수정하기", item); }
 
     return (
         <div className="grid gap-4 grid-cols-3">
-            {bingoItems.map((item, idx) => (
+            {bingoItems.map((item) => (
                 <BingoGridItem
-                    key={idx}
+                    key={item.id}
                     item={item}
                     onAdd={() => handleAddItem(item)}
                     onEdit={() => handleEditItem(item)}
