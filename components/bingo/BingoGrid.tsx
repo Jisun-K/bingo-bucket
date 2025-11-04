@@ -5,15 +5,7 @@ import { nanoid } from "nanoid";
 import { useState } from "react";
 import { BingoInputForm } from "./BingoInputForm";
 import BingoGridItem from "./BingoGridItem";
-export interface BingoItem {
-    id: string;
-    order: number; // 그리드 칸 순서
-    parentId: string;
-    content: string;
-    isCompleted: boolean;
-    createdAt: string;
-    updatedAt: string;
-}
+import { BingoItem } from "@/store/useBingoStore";
 
 export default function BingoGrid() {
     const modal = useModalStore();

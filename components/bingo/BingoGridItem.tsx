@@ -1,5 +1,4 @@
-
-import { BingoItem } from "./BingoGrid";
+import { BingoItem } from "@/store/useBingoStore";
 
 type Props = {
     item: BingoItem;
