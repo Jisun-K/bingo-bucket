@@ -1,27 +1,20 @@
 "use client";
 
 import { useModalStore } from "@/store/useModalStore";
-import { nanoid } from "nanoid";
-import { useState } from "react";
 import { BingoInputForm } from "./BingoInputForm";
 import BingoGridItem from "./BingoGridItem";
 import { BingoItem } from "@/store/useBingoStore";
+import { useBingoBoard } from "@/hooks/useBingoBoard";
 
-export default function BingoGrid() {
+type Props = {
+    boardId: string
+}
+
+export default function BingoGrid({boardId}: Props) {
     const modal = useModalStore();
-    const initBingo: BingoItem[] = Array.from({ length: 9 }, (_, index) => ({
-        id: nanoid(),
-        parentId: 'sampleBingoId',
-        order: index,
-        content: '',
-        isCompleted: false,
-        createdAt: '',
-        updatedAt: '',
-    }));
-
-    const [bingoItems, setBingoItems] = useState<BingoItem[]>(initBingo);
-
-    const openBingoInputModal = (isEdit: boolean, title: string, item: BingoItem) => {
+    const { board, addItem, editItem, deleteItem, toggleCompleted } = useBingoBoard(boardId);
+    
+    const openBingoInputModal = (title: string, item: BingoItem, isEdit: boolean) => {
         modal.open({
             title,
             description: "이루고 싶은 목표를 작성해서 빙고를 완성해보세요!",
@@ -37,58 +30,23 @@ export default function BingoGrid() {
     }
 
     const handleSubmit = (id: string, value: string, isEdit: boolean) => {
-        setBingoItems(prevItems =>
-            prevItems.map(item =>
-                item.id === id
-                    ? {
-                        ...item,
-                        content: value,
-                        createdAt: isEdit ? item.createdAt : new Date().toISOString(),
-                        updatedAt: new Date().toISOString(),
-                    }
-                    : item
-            )
-        );
+        if(isEdit) {
+            editItem(id, value);
+        } else {
+            addItem(id, value);
+        }
         modal.close();
     };
 
-    const handleToggleComplete = (id: string) => {
-        setBingoItems(prevItems =>
-            prevItems.map(item =>
-                item.id === id
-                    ? {
-                        ...item,
-                        isCompleted: !item.isCompleted,
-                        updatedAt: new Date().toISOString(),
-                    }
-                    : item
-            )
-        );
-    };
-
-    const handleDeleteItem = (id: string) => {
-        setBingoItems(prevItems => prevItems.map(item => {
-            if (item.id === id) {
-                return {
-                    ...item,
-                    parentId: 'sampleBingoId',
-                    order: item.order,
-                    content: '',
-                    isCompleted: false,
-                    createdAt: '',
-                    updatedAt: '',
-                };
-            }
-            return item;
-        }));
-    }
-
-    const handleAddItem = (item: BingoItem) => { openBingoInputModal(false, "목표 추가하기", item); }
-    const handleEditItem = (item: BingoItem) => { openBingoInputModal(true, "목표 수정하기", item); }
+    const handleAddItem = (item: BingoItem) => { openBingoInputModal("목표 추가하기", item, false); };
+    const handleEditItem = (item: BingoItem) => { openBingoInputModal("목표 수정하기", item, true); };
+    
+    const handleToggleComplete = (id: string) => { toggleCompleted(id); };
+    const handleDeleteItem = (id: string) => { deleteItem(id); };
 
     return (
         <div className="grid gap-4 grid-cols-3">
-            {bingoItems.map((item) => (
+            {board.items.map((item) => (
                 <BingoGridItem
                     key={item.id}
                     item={item}

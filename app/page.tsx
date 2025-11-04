@@ -1,6 +1,21 @@
+"use client";
+
 import BingoGrid from "@/components/bingo/BingoGrid";
+import { useBingoStore } from "@/store/useBingoStore";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+    const { ensureBingoBoard } = useBingoStore();
+
+    const [boardId, setBoardId] = useState<string>("");
+    useEffect(() => {
+        const id = ensureBingoBoard(3);
+        setBoardId(id);
+    }, [boardId]);
+
+    if(!boardId) {return null;}
+
+
     return (
         <div className="min-h-screen flex items-center justify-center p-4 mx-auto max-w-md">
             <div className="w-full">
@@ -9,7 +24,7 @@ export default function Home() {
                         빙고를 완성해보세요!
                     </p>
                 </header>
-                <BingoGrid />
+                <BingoGrid boardId={boardId} />
             </div>
         </div>
 

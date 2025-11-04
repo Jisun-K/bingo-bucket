@@ -25,7 +25,8 @@ export interface BingoItem {
 interface BingoState {
     boards: BingoBoard[],
     createBingoBoard: (size?: number) => string;
-    getBingoBoard: (id: string) => BingoBoard;
+    ensureBingoBoard: (size?: number) => string;
+    getBingoBoard: (id: string) => BingoBoard | undefined;
     updateItem: (boardId: string, itemId: string, content: string, isEidt?: boolean) => void;
     resetItem: (boardId: string, itemId: string) => void;
     toggleComplete: (boardId: string, itemId: string) => void;
@@ -45,15 +46,15 @@ export const useBingoStore = create<BingoState>((set, get) => {
     });
 
     const updateBingoItem = (boards: BingoBoard[], boardId: string, itemId: string, updater: (item: BingoItem) => BingoItem): BingoBoard[] => {
-        return boards.map(board => 
-            board.id === boardId 
-                ? { 
-                    ...board, 
-                    items: board.items.map(item => 
+        return boards.map(board =>
+            board.id === boardId
+                ? {
+                    ...board,
+                    items: board.items.map(item =>
                         item.id === itemId ? updater(item) : item
                     ),
                     updatedAt: new Date().toISOString()
-                } 
+                }
                 : board
         );
     }
@@ -73,6 +74,11 @@ export const useBingoStore = create<BingoState>((set, get) => {
                 }]
             }));
             return boardId;
+        },
+        ensureBingoBoard: (size = 3) => {
+            const { boards, createBingoBoard } = get();
+            if(boards.length > 0) { return boards[0].id }
+            return createBingoBoard(size); 
         },
         getBingoBoard: (id: string): BingoBoard => {
             const board = get().boards.find(b => b.id === id);
@@ -111,7 +117,7 @@ export const useBingoStore = create<BingoState>((set, get) => {
                 }))
             }));
         },
-        disableBingoLine: (boardId, indexes) => {   
+        disableBingoLine: (boardId, indexes) => {
             set(state => ({}))
         },
     }

@@ -1,7 +1,7 @@
 import { useBingoStore } from "@/store/useBingoStore";
 
 export function useBingoBoard(boardId: string) {
-    const { getBingoBoard, createBingoBoard, updateItem, resetItem, toggleComplete } = useBingoStore();
+    const { getBingoBoard, updateItem, resetItem, toggleComplete } = useBingoStore();
 
     const board = getBingoBoard(boardId);
 
