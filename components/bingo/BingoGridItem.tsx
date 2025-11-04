@@ -35,7 +35,9 @@ export default function BingoGridItem({ item, onAdd, onEdit, onDelete, onToggleC
                         {buttons.map((button) =>
                             <button key={button.action}
                                 className="mt-4 ml-1 p-1 rounded-full bg-white shadow-md hover:shadow-lg border-1 transition-shadow duration-200"
-                                onClick={(e) => { button.onClick?.(); }}>
+                                onClick={(e) => { 
+                                    e.stopPropagation();
+                                    button.onClick?.(); }}>
                                 <img src={button.icon} alt={button.alt} className="w-5 h-5" />
                             </button>
                         )}

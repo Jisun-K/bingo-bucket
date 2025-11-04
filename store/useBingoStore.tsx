@@ -26,7 +26,7 @@ interface BingoState {
     boards: BingoBoard[],
     createBingoBoard: (size?: number) => string;
     ensureBingoBoard: (size?: number) => string;
-    getBingoBoard: (id: string) => BingoBoard | undefined;
+    getBingoBoard: (id: string) => BingoBoard;
     updateItem: (boardId: string, itemId: string, content: string, isEidt?: boolean) => void;
     resetItem: (boardId: string, itemId: string) => void;
     toggleComplete: (boardId: string, itemId: string) => void;
