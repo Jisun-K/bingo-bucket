@@ -1,17 +1,35 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from 'next/font/local';
 import "./globals.css";
 import Modal from "@/components/common/Modal";
 
-const geistSans = Geist({
-    variable: "--font-geist-sans",
-    subsets: ["latin"],
+const freesentation = localFont({
+    src: [
+        {
+            path: './fonts/Freesentation-Light.woff2',
+            weight: '300',
+            style: 'normal',
+        },
+        {
+            path: './fonts/Freesentation-Regular.woff2',
+            weight: '400',
+            style: 'normal',
+        },
+        {
+            path: './fonts/Freesentation-SemiBold.woff2',
+            weight: '600',
+            style: 'normal',
+        },
+        {
+            path: './fonts/Freesentation-Bold.woff2',
+            weight: '700',
+            style: 'normal',
+        },
+    ],
+    variable: '--font-freesentation',
+    display: 'swap',
 });
 
-const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
-    subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -26,7 +44,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased `}
+                className={`${freesentation.variable} antialiased `}
             >
                 {children}
                 <Modal />

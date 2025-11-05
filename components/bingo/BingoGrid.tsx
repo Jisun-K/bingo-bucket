@@ -14,10 +14,10 @@ export default function BingoGrid({boardId}: Props) {
     const modal = useModalStore();
     const { board, addItem, editItem, deleteItem, toggleCompleted } = useBingoBoard(boardId);
     
-    const openBingoInputModal = (title: string, item: BingoItem, isEdit: boolean) => {
+    const openBingoInputModal = (item: BingoItem, isEdit: boolean) => {
         modal.open({
-            title,
-            description: "이루고 싶은 목표를 작성해서 빙고를 완성해보세요!",
+            title: "✨ 어떤 걸 이뤄볼까요?",
+            description: "언젠가 꼭 하고 싶은 일이라면 충분해요.",
             children: (
                 <BingoInputForm
                     initValue={item.content}
@@ -38,8 +38,8 @@ export default function BingoGrid({boardId}: Props) {
         modal.close();
     };
 
-    const handleAddItem = (item: BingoItem) => { openBingoInputModal("목표 추가하기", item, false); };
-    const handleEditItem = (item: BingoItem) => { openBingoInputModal("목표 수정하기", item, true); };
+    const handleAddItem = (item: BingoItem) => { openBingoInputModal(item, false); };
+    const handleEditItem = (item: BingoItem) => { openBingoInputModal(item, true); };
     
     const handleToggleComplete = (id: string) => { toggleCompleted(id); };
     const handleDeleteItem = (id: string) => { deleteItem(id); };

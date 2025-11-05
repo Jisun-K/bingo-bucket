@@ -34,7 +34,7 @@ export function BingoInputForm({ initValue = "", isEdit = false, onSubmit, onCan
         <form onSubmit={handleSubmit}>
             <input
                 type="text"
-                placeholder="ex. 책 5권 읽기, 다이어트 성공하기 등등.."
+                placeholder="예) 혼자 여행 가보기/ 그림 배우기/ 운동 루틴 만들기"
                 className="w-full border p-2 rounded mb-4"
                 value={value}
                 onChange={(e) => setValue(e.target.value)}

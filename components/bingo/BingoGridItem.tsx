@@ -27,23 +27,23 @@ export default function BingoGridItem({ item, onAdd, onEdit, onDelete, onToggleC
     return (
         <div
             className={clsx(
-                "relative aspect-square rounded-3xl border-2 transition-all duration-300 cursor-pointer overflow-y-auto py-4",
+                "relative aspect-square rounded-3xl border transition-all duration-300 cursor-pointer overflow-y-auto py-4 font-semibold",
                 {
-                    "border-green-500 bg-green-200": item.isCompleted && !item.disabled,
-                    "border-red-500 bg-red-100 scale-110": item.isCompleted && item.disabled,
-                    "border-gray-300 hover:shadow-lg hover:border-gray-400": !item.isCompleted && !item.disabled,
+                    "bg-gray-200 text-[#1e1e1e]": item.isCompleted && !item.disabled,
+                    "border-black bg-black scale-110 text-white": item.isCompleted && item.disabled,
+                    "border-gray-300 hover:shadow-lg hover:border-gray-300 text-gray": !item.isCompleted && !item.disabled,
                 }
             )}>
             <div className="p-3 flex flex-col items-center justify-center text-center h-full"
                 onClick={handleClick}>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-sm">
                     {item.content || "+"}
                 </p>
-                {item.content && !item.disabled &&
+                {item.content && !item.isCompleted &&
                     <div className="absolute right-2 bottom-1">
                         {buttons.map((button) =>
                             <button key={button.action}
-                                className="mt-4 ml-1 p-1 rounded-full bg-white shadow-md hover:shadow-lg border-1 transition-shadow duration-200"
+                                className="mt-4 ml-1 p-1 rounded-full hover:shadow-lg transition-shadow duration-200"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     button.onClick?.();
