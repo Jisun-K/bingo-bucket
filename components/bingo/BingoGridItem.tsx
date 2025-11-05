@@ -31,7 +31,7 @@ export default function BingoGridItem({ item, onAdd, onEdit, onDelete, onToggleC
                 {
                     "bg-gray-200 text-[#1e1e1e]": item.isCompleted && !item.disabled,
                     "border-black bg-black scale-110 text-white": item.isCompleted && item.disabled,
-                    "border-gray-300 hover:shadow-lg hover:border-gray-300 text-gray": !item.isCompleted && !item.disabled,
+                    "border-gray-300 hover:shadow-lg hover:border-gray-300": !item.isCompleted && !item.disabled,
                 }
             )}>
             <div className="p-3 flex flex-col items-center justify-center text-center h-full"
@@ -40,7 +40,7 @@ export default function BingoGridItem({ item, onAdd, onEdit, onDelete, onToggleC
                     {item.content || "+"}
                 </p>
                 {item.content && !item.isCompleted &&
-                    <div className="absolute right-2 bottom-1">
+                    <div className="absolute right-2 bottom-0">
                         {buttons.map((button) =>
                             <button key={button.action}
                                 className="mt-4 ml-1 p-1 rounded-full hover:shadow-lg transition-shadow duration-200"

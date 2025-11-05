@@ -21,6 +21,7 @@ export function BingoInputForm({ initValue = "", isEdit = false, onSubmit, onCan
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!value.trim()) return;
+        if (value.length > 30) return;
         onSubmit(value);
         setValue("");
     };
@@ -30,6 +31,14 @@ export function BingoInputForm({ initValue = "", isEdit = false, onSubmit, onCan
         setValue(initValue);
     };
 
+    const handleChange = (value: string) => {
+        if(value.length <= 30) {
+            setValue(value);
+        }
+    }
+
+    // const check
+
     return (
         <form onSubmit={handleSubmit}>
             <input
@@ -37,11 +46,11 @@ export function BingoInputForm({ initValue = "", isEdit = false, onSubmit, onCan
                 placeholder="예) 혼자 여행 가보기/ 그림 배우기/ 운동 루틴 만들기"
                 className="w-full border p-2 rounded mb-4"
                 value={value}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) =>handleChange(e.target.value)}
             />
             <div className="flex justify-end gap-2">
                 <Button type="button" onClick={handleCancel} className="bg-white text-black hover:bg-gray-200">취소</Button>
-                <Button type="submit" onClick={handleSubmit}>{!isEdit ? "추가" : "수정"} </Button>
+                <Button type="submit" disabled={value.length > 30}>{!isEdit ? "추가" : "수정"} </Button>
             </div>
         </form>
     );
