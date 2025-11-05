@@ -1,26 +1,7 @@
 import { create } from "zustand";
 import { nanoid } from "nanoid";
-
-export interface BingoBoard {
-    id: string;
-    size: number;
-    items: BingoItem[];
-    createdAt: string;
-    updatedAt: string;
-    title?: string;
-    period?: string;
-}
-
-export interface BingoItem {
-    id: string;
-    order: number; // 그리드 칸 순서
-    parentId: string;
-    content: string;
-    isCompleted: boolean;
-    createdAt: string;
-    updatedAt: string;
-    disabled?: boolean;
-}
+import { BingoBoard, BingoItem } from "@/types/bingo";
+import { checkBingo } from "@/lib/bingo/checkBingo";
 
 interface BingoState {
     boards: BingoBoard[],
@@ -30,7 +11,7 @@ interface BingoState {
     updateItem: (boardId: string, itemId: string, content: string, isEidt?: boolean) => void;
     resetItem: (boardId: string, itemId: string) => void;
     toggleComplete: (boardId: string, itemId: string) => void;
-    disableBingoLine: (boardId: string, indexes: number[]) => void;
+    checkBingoLine: (boardId: string) => void;
 }
 
 export const useBingoStore = create<BingoState>((set, get) => {
@@ -70,15 +51,15 @@ export const useBingoStore = create<BingoState>((set, get) => {
                     size,
                     items,
                     createdAt: new Date().toISOString(),
-                    updatedAt: new Date().toISOString()
+                    updatedAt: new Date().toISOString(),
                 }]
             }));
             return boardId;
         },
         ensureBingoBoard: (size = 3) => {
             const { boards, createBingoBoard } = get();
-            if(boards.length > 0) { return boards[0].id }
-            return createBingoBoard(size); 
+            if (boards.length > 0) { return boards[0].id }
+            return createBingoBoard(size);
         },
         getBingoBoard: (id: string): BingoBoard => {
             const board = get().boards.find(b => b.id === id);
@@ -116,9 +97,33 @@ export const useBingoStore = create<BingoState>((set, get) => {
                     disabled: !item.disabled,
                 }))
             }));
+
+            get().checkBingoLine(boardId);
         },
-        disableBingoLine: (boardId, indexes) => {
-            set(state => ({}))
+        checkBingoLine: (boardId) => {
+            const board = get().getBingoBoard(boardId);
+            const bingoLines = checkBingo(board.items, board.size); //bingo 줄 배열
+            if (!bingoLines.completedLines) return;
+
+            // bingo 완성된 id 
+            const disabledIds = bingoLines.completedLines.flatMap(line =>
+                line.map(idx => board.items[idx].id)
+            );
+
+            set(state => ({
+                boards: state.boards.map(board =>
+                    board.id === boardId ? {
+                        ...board,
+                        items: board.items.map(item => ({
+                            ...item,
+                            disabled: disabledIds.includes(item.id),
+                            updatedAt: new Date().toISOString()
+                        })),
+                        updatedAt: new Date().toISOString(),
+                        bingoLines: bingoLines.completedLines
+                    } : board
+                )
+            }));
         },
     }
 }); 

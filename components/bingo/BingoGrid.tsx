@@ -3,8 +3,8 @@
 import { useModalStore } from "@/store/useModalStore";
 import { BingoInputForm } from "./BingoInputForm";
 import BingoGridItem from "./BingoGridItem";
-import { BingoItem } from "@/store/useBingoStore";
 import { useBingoBoard } from "@/hooks/useBingoBoard";
+import { BingoItem } from "@/types/bingo";
 
 type Props = {
     boardId: string

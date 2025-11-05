@@ -5,16 +5,14 @@ import { useBingoStore } from "@/store/useBingoStore";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-    const { ensureBingoBoard } = useBingoStore();
-
+    const { ensureBingoBoard } = useBingoStore();    
     const [boardId, setBoardId] = useState<string>("");
     useEffect(() => {
         const id = ensureBingoBoard(3);
         setBoardId(id);
-    }, [boardId]);
-
+    }, []);
+    
     if(!boardId) {return null;}
-
 
     return (
         <div className="min-h-screen flex items-center justify-center p-4 mx-auto max-w-md">
