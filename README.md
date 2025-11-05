@@ -29,45 +29,6 @@
 | **State Management** | Zustand |
 | **Architecture** | Hook-based modular structure |
 
----
-
-## 🧩 Folder Structure
-
-app/
-├── fonts/                
-├── layout.tsx            
-└── page.tsx              
-
-
-components/
-├── bingo/
-│   ├── BingoGrid.tsx     # 전체 빙고판
-│   ├── BingoItem.tsx     # 빙고 아이템
-│   └── BingoInputForm.tsx# 입력 폼
-│
-├── common/
-│   └── Modal.tsx         # 공통 모달 컴포넌트
-│
-└── ui/                   # Shadcn 컴포넌트
-
-hooks/
-└── useBingoBoard.ts      # BingoStore와 UI 로직을 연결하는 컷
-텀 훅 (store 헬퍼 역할)
-
-lib/
-└── bingo/
-    ├── getBingoLines.ts  # 빙고될 수 있는 라인 계산 
-    └── checkBingo.ts     # 빙고 완성 여부 체크 함수
-
-public/
-└── icons/                # SVG 및 아이콘 리소스
-
-store/
-├── useBingoStore.ts      # 빙고판 상태 관리 (Zustand)
-└── useModalStore.ts      # 모달 상태 관리 (Zustand)
-
-types/
-└── bingo.ts              # Bingo 타입 정의
 
 ---
 
