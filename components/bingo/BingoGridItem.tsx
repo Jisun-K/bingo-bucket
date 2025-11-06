@@ -38,9 +38,9 @@ export default function BingoGridItem({ item, onAdd, onEdit, onDelete, onToggleC
                 onClick={handleClick}>
                 <p className="text-sm">
                     {item.content || "+"}
-                </p>
+                </p>    
                 {item.content && !item.isCompleted &&
-                    <div className="absolute right-2 bottom-0">
+                    <div className="absolute right-2 bottom-1">
                         {buttons.map((button) =>
                             <button key={button.action}
                                 className="mt-4 ml-1 p-1 rounded-full hover:shadow-lg transition-shadow duration-200"
