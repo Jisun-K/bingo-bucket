@@ -1,13 +1,12 @@
 "use client";
 
-import BingoGrid from "@/components/bingo/BingoGrid";
-import { useBingoStore } from "@/store/useBingoStore";
-import { useThemeStore } from "@/store/useThemeStore";
 import { useEffect, useState } from "react";
+import { useBingoStore } from "@/store/useBingoStore";
+import BingoGrid from "@/components/bingo/BingoGrid";
+import ThemeSelect from "@/components/common/ThemeSelect";
 
 export default function Home() {
     const { ensureBingoBoard } = useBingoStore();    
-    const { setTheme } = useThemeStore();
 
     const [boardId, setBoardId] = useState<string>("");
 
@@ -18,19 +17,15 @@ export default function Home() {
     
     if(!boardId) {return null;}
 
-    const handleChangeTheme = () => {
-        setTheme("green");
-    }
-
     return (
-        <div className="min-h-screen flex items-center justify-center p-4 mx-auto max-w-md">
+        <div className="text-(--text-color-base) min-h-screen flex items-center justify-center p-4 mx-auto max-w-md">
             <div className="w-full">
-                <header className="text-center mb-8">
-                    <p className="mt-2 text-2xl">
+                <header className="text-center mb-10">
+                    <p className="mt-2 mb-5 text-xl">
                         하나씩 채워가며, 빙고를 완성해보세요!
                     </p>
+                    <ThemeSelect />
                 </header>
-                <button type="button" onClick={handleChangeTheme}>클릭!</button>
                 <BingoGrid boardId={boardId} />
             </div>
         </div>

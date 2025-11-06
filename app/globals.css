@@ -118,8 +118,8 @@
     @apply border-border outline-ring/50;
   }
 
-  body {
-    @apply bg-background text-foreground;
+  body { 
+    @apply bg-background text-foreground transition-all duration-300;
     font-family: var(--font-freesentation);
     background-color: var(--bg-color-body);
   }
@@ -127,4 +127,5 @@
   button {
     @apply cursor-pointer outline-0;
   }
+
 }

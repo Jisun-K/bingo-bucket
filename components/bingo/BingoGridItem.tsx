@@ -1,3 +1,4 @@
+import { useThemeStore } from "@/store/useThemeStore";
 import { BingoItem } from "@/types/bingo";
 import clsx from "clsx";
 
@@ -10,10 +11,13 @@ type Props = {
 }
 
 export default function BingoGridItem({ item, onAdd, onEdit, onDelete, onToggleComplete }: Props) {
+    const { theme } = useThemeStore();
     const buttons = [
         { action: 'edit', icon: '/icons/ic_modify.svg', alt: '수정', onClick: onEdit },
         { action: 'delete', icon: '/icons/ic_delete.svg', alt: '삭제', onClick: onDelete },
     ];
+    
+    const darkTheme = [ "midnight", "forest","nebula" ];
 
     const handleClick = () => {
         if (item.disabled) { return; }
@@ -48,7 +52,8 @@ export default function BingoGridItem({ item, onAdd, onEdit, onDelete, onToggleC
                                     e.stopPropagation();
                                     button.onClick?.();
                                 }}>
-                                <img src={button.icon} alt={button.alt} className="w-5 h-5" />
+                                <img src={button.icon} alt={button.alt} className={clsx("w-5 h-5 transition-all duration-100",
+                                    darkTheme.includes(theme) && "invert")} />
                             </button>
                         )}
                     </div>

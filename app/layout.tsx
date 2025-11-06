@@ -42,7 +42,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`${freesentation.variable} antialiased trasition-all duration-300`}>
+            <body className={`${freesentation.variable} antialiased`}>
                 <ThemeProvider>
                     {children}
                     <Modal />

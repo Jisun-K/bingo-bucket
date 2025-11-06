@@ -1,33 +1,132 @@
 [data-theme="default"] {
+    /* 🎨 Theme Summary
+Primary: #1A1A1A (Neutral Black)
+Secondary: #FAFAFA
+Accent: #E7E7E7
+Text: #1A1A1A
+*/
     --bg-color-body: #FAFAFA;
+    --text-color-base: #1A1A1A;
 
-    /* empty */
     --bg-color-empty: #FAFAFA;
     --border-color-empty: #F0F2F5;
     --text-color-empty: #1A1A1A;
-
-    /* completed */
     --bg-color-completed: #E7E7E7;
-
-    /* bingo(disabled */
     --bg-color-bingo: #1A1A1A;
     --border-color-bingo: #1A1A1A;
     --text-color-bingo: #FAFAFA;
 }
 
-[data-theme="green"] {
-    --bg-color-body: green;
+[data-theme="pinkbeige"] {
+    /* 🌅 Theme Summary
+Primary: #C2A2A8 (Muted Mauve Pink)
+Secondary: #F6F1F4 → #FBEFEA
+Accent: #E4E2E0
+Text: #2B2B2B
+*/
+    --bg-color-body: linear-gradient(180deg, #F6F1F4 0%, #FBEFEA 100%);
+    --text-color-base: #2B2B2B;
 
-    /* empty */
-    --bg-color-empty: red;
-    --border-color-empty: #FAFAFA;
-    --text-color-empty: #1A1A1A;
+    --bg-color-empty: #FFFFFF;
+    --border-color-empty: #E4E2E0;
+    --text-color-empty: #2B2B2B;
+    --bg-color-completed: #EDE6E2;
+    --bg-color-bingo: #C2A2A8;
+    --border-color-bingo: #C2A2A8;
+    --text-color-bingo: #FFFFFF;
+}
 
-    /* completed */
-    --bg-color-completed: #E7E7E7;
+[data-theme="dawn"] {
+    /* 🌤️ Theme Summary
+Primary: #2E3440 (Dark Navy Gray)
+Secondary: #F4F5F7
+Accent: #E2E6EA
+Text: #1E1E1E
+*/
+    --bg-color-body: #F4F5F7;
+    --text-color-base: #1E1E1E;
 
-    /* bingo(disabled */
-    --bg-color-bingo: #1A1A1A;
-    --border-color-bingo: #1A1A1A;
+    --bg-color-empty: #F9FAFB;
+    --border-color-empty: #E5E7EB;
+    --text-color-empty: #1E1E1E;
+    --bg-color-completed: #E2E6EA;
+    --bg-color-bingo: #2E3440;
+    --border-color-bingo: #2E3440;
     --text-color-bingo: #FAFAFA;
+}
+
+[data-theme="moss"] {
+    /* 🍃 Theme Summary
+Primary: #495C4A (Deep Moss Green)
+Secondary: #F5F6F2
+Accent: #DDE2D6
+Text: #222
+*/
+    --bg-color-body: #F5F6F2;
+    --text-color-base: #222;
+
+    --bg-color-empty: #F8F9F5;
+    --border-color-empty: #DCE0D4;
+    --text-color-empty: #222;
+    --bg-color-completed: #DDE2D6;
+    --bg-color-bingo: #495C4A;
+    --border-color-bingo: #495C4A;
+    --text-color-bingo: #F5F6F2;
+}
+
+[data-theme="forest"] {
+    /* 🌲 Theme Summary
+Primary: #E8EDE8 (Misty White-Green)
+Secondary: #1C221D
+Accent: #3C4B3F
+Text: #E8EDE8
+*/
+    --bg-color-body: #1C221D;
+    --text-color-base: #E8EDE8;
+
+    --bg-color-empty: #232B25;
+    --border-color-empty: #364036;
+    --text-color-empty: #E8EDE8;
+    --bg-color-completed: #3C4B3F;
+    --bg-color-bingo: #E8EDE8;
+    --border-color-bingo: #E8EDE8;
+    --text-color-bingo: #1C221D;
+}
+
+[data-theme="midnight"] {
+    /* 🌌 Theme Summary
+Primary: #E5E7EB (Pale Gray-Blue)
+Secondary: #0F1115
+Accent: #2C3139
+Text: #E5E7EB
+*/
+    --bg-color-body: #0F1115;
+    --text-color-base: #E5E7EB;
+
+    --bg-color-empty: #15181C;
+    --border-color-empty: #2A2E35;
+    --text-color-empty: #E5E7EB;
+    --bg-color-completed: #2C3139;
+    --bg-color-bingo: #E5E7EB;
+    --border-color-bingo: #E5E7EB;
+    --text-color-bingo: #0F1115;
+}
+
+[data-theme="nebula"] {
+    /* 🪐 Theme Summary
+Primary: #B7B9D6 (Lavender Gray)
+Secondary: #1C1F2A
+Accent: #3A3E50
+Text: #EAEAF2
+*/
+    --bg-color-body: #1C1F2A;
+    --text-color-base: #EAEAF2;
+
+    --bg-color-empty: #242837;
+    --border-color-empty: #3A3E50;
+    --text-color-empty: #EAEAF2;
+    --bg-color-completed: #3A3E50;
+    --bg-color-bingo: #B7B9D6;
+    --border-color-bingo: #B7B9D6;
+    --text-color-bingo: #1C1F2A;
 }
