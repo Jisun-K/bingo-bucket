@@ -1,0 +1,33 @@
+[data-theme="default"] {
+    --bg-color-body: #FAFAFA;
+
+    /* empty */
+    --bg-color-empty: #FAFAFA;
+    --border-color-empty: #F0F2F5;
+    --text-color-empty: #1A1A1A;
+
+    /* completed */
+    --bg-color-completed: #E7E7E7;
+
+    /* bingo(disabled */
+    --bg-color-bingo: #1A1A1A;
+    --border-color-bingo: #1A1A1A;
+    --text-color-bingo: #FAFAFA;
+}
+
+[data-theme="green"] {
+    --bg-color-body: green;
+
+    /* empty */
+    --bg-color-empty: red;
+    --border-color-empty: #FAFAFA;
+    --text-color-empty: #1A1A1A;
+
+    /* completed */
+    --bg-color-completed: #E7E7E7;
+
+    /* bingo(disabled */
+    --bg-color-bingo: #1A1A1A;
+    --border-color-bingo: #1A1A1A;
+    --text-color-bingo: #FAFAFA;
+}

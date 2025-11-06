@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "../styles/themes.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -46,7 +47,7 @@
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
-  --foreground: oklch(0.147 0.004 49.25);
+  --foreground: #1A1A1A;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.147 0.004 49.25);
   --popover: oklch(1 0 0);
@@ -120,7 +121,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-freesentation);
-
+    background-color: var(--bg-color-body);
   }
 
   button {

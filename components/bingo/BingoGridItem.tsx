@@ -27,11 +27,11 @@ export default function BingoGridItem({ item, onAdd, onEdit, onDelete, onToggleC
     return (
         <div
             className={clsx(
-                "relative aspect-square rounded-3xl border transition-all duration-300 cursor-pointer overflow-y-auto py-4 font-semibold",
+                "relative aspect-square rounded-3xl border-2 transition-all duration-300 cursor-pointer overflow-y-auto py-4 font-semibold",
                 {
-                    "bg-gray-200 text-[#1e1e1e]": item.isCompleted && !item.disabled,
-                    "border-black bg-black scale-110 text-white": item.isCompleted && item.disabled,
-                    "border-gray-300 hover:shadow-lg hover:border-gray-300": !item.isCompleted && !item.disabled,
+                    "border-(--border-color-empty) bg-(--bg-color-empty) text-(--text-color-empty) hover:shadow-lg": !item.isCompleted && !item.disabled,
+                    "bg-(--bg-color-completed)": item.isCompleted && !item.disabled,
+                    "border-(--border-color-bingo) bg-(--bg-color-bingo) text-(--text-color-bingo) scale-110": item.isCompleted && item.disabled,
                 }
             )}>
             <div className="p-3 flex flex-col items-center justify-center text-center h-full"

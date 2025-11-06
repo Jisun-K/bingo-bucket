@@ -2,17 +2,25 @@
 
 import BingoGrid from "@/components/bingo/BingoGrid";
 import { useBingoStore } from "@/store/useBingoStore";
+import { useThemeStore } from "@/store/useThemeStore";
 import { useEffect, useState } from "react";
 
 export default function Home() {
     const { ensureBingoBoard } = useBingoStore();    
+    const { setTheme } = useThemeStore();
+
     const [boardId, setBoardId] = useState<string>("");
+
     useEffect(() => {
         const id = ensureBingoBoard(3);
         setBoardId(id);
     }, []);
     
     if(!boardId) {return null;}
+
+    const handleChangeTheme = () => {
+        setTheme("green");
+    }
 
     return (
         <div className="min-h-screen flex items-center justify-center p-4 mx-auto max-w-md">
@@ -22,6 +30,7 @@ export default function Home() {
                         하나씩 채워가며, 빙고를 완성해보세요!
                     </p>
                 </header>
+                <button type="button" onClick={handleChangeTheme}>클릭!</button>
                 <BingoGrid boardId={boardId} />
             </div>
         </div>
