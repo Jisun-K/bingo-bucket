@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 import "./globals.css";
 import Modal from "@/components/common/Modal";
 import ThemeProvider from "@/components/common/ThemeProvider";
+import { Toaster } from "sonner";
 
 const freesentation = localFont({
     src: [
@@ -46,6 +47,7 @@ export default function RootLayout({
                 <ThemeProvider>
                     {children}
                     <Modal />
+                    <Toaster position="top-center"/>
                 </ThemeProvider>
             </body>
         </html>
