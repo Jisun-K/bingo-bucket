@@ -36,7 +36,8 @@ const freesentation = localFont({
 });
 
 export const metadata: Metadata = {
-    title: "Bingle :)",
+    title: "Bingle",
+    description: "'하고 싶은 일'을 하나씩, 빙고로 완성해 봐요!"
 };
 
 export default function RootLayout({
