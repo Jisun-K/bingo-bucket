@@ -31,7 +31,7 @@ export default function BingoGridItem({ item, onAdd, onEdit, onDelete, onToggleC
     return (
         <div
             className={clsx(
-                "relative aspect-square rounded-3xl border-2 transition-all duration-300 cursor-pointer overflow-y-auto py-4 font-semibold",
+                "relative aspect-square rounded-3xl border-2 transition-all duration-300 cursor-pointer overflow-y-hidden py-4 font-semibold",
                 {
                     "border-(--border-color-empty) bg-(--bg-color-empty) text-(--text-color-empty) hover:shadow-lg": !item.isCompleted && !item.disabled,
                     "bg-(--bg-color-completed)": item.isCompleted && !item.disabled,
