@@ -43,7 +43,7 @@ export default function BingoGridItem({ item, onAdd, onEdit, onDelete, onToggleC
                 )}
                 onClick={handleClick}
             >
-                <p className="text-sm">{item.content || "+"}</p>
+                <p className="text-sm break-all">{item.content || "+"}</p>
 
                 {item.content && !item.isCompleted && (
                     <div className="absolute right-2 bottom-1">

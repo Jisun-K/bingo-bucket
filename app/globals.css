@@ -128,8 +128,5 @@
     @apply cursor-pointer outline-0;
   }
 
-  html, body {
-    overflow: hidden;
-  }
 
 }
