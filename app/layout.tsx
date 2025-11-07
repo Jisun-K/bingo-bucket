@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import localFont from 'next/font/local';
 import "./globals.css";
+
 import Modal from "@/components/common/Modal";
 import ThemeProvider from "@/components/common/ThemeProvider";
+
 import { Toaster } from "sonner";
+import { Confetti } from "@/components/common/Confetti";
 
 const freesentation = localFont({
     src: [
@@ -47,7 +50,8 @@ export default function RootLayout({
                 <ThemeProvider>
                     {children}
                     <Modal />
-                    <Toaster position="top-center"/>
+                    <Toaster position="top-center" />
+                    <Confetti />
                 </ThemeProvider>
             </body>
         </html>

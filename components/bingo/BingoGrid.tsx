@@ -5,8 +5,7 @@ import { BingoInputForm } from "./BingoInputForm";
 import BingoGridItem from "./BingoGridItem";
 import { useBingoBoard } from "@/hooks/useBingoBoard";
 import { BingoItem } from "@/types/bingo";
-import { useEffect, useRef } from "react";
-import { toast } from "sonner";
+import { useBingoListner } from "@/hooks/useBingoListenr";
 
 type Props = {
     boardId: string
@@ -15,14 +14,7 @@ type Props = {
 export default function BingoGrid({ boardId }: Props) {
     const modal = useModalStore();
     const { board, addItem, editItem, deleteItem, toggleCompleted } = useBingoBoard(boardId);
-    const prevBingoCount = useRef(board.bingoLines?.length || 0);
-
-    useEffect(() => {
-        if (board.bingoLines && board.bingoLines.length > prevBingoCount.current) {
-            toast.success(`🎉 빙고 ${board.bingoLines.length}줄 완성!`);
-            prevBingoCount.current = board.bingoLines.length;
-        }
-    }, [board.bingoLines]);
+    useBingoListner(boardId);
 
     const openBingoInputModal = (item: BingoItem, isEdit: boolean) => {
         modal.open({
