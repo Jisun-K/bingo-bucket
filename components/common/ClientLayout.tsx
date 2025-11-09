@@ -1,18 +1,18 @@
-
 "use client";
 
-import { useEffect } from "react";
+import { useViewportHeight } from "@/hooks/useViewportHeight";
 
-export default function ClientLayout({ children }: Readonly<{children: React.ReactNode;}>) {
-    useEffect(() => {
-        const setVh = () => {
-            document.documentElement.style.setProperty("--vh", `${window.innerHeight * 0.01}px`);
-        };
-        setVh();
-        window.addEventListener("resize", setVh);
-        return () => window.removeEventListener("resize", setVh);
-    }, [])
+export default function ClientLayout({ children }: { children: React.ReactNode }) {
+    useViewportHeight();
+
     return (
-        <div className="h-svh h-[calc(var(--vh, 1vh) * 100)]">{children}</div>
+        <div className="h-svh h-dvh h-[calc(var(--vh,1vh)*100)] overflow-hidden">
+            {/* <main className="flex-1 overflow-auto
+                        pt-[env(safe-area-inset-top)] 
+                        pb-[env(safe-area-inset-bottom)]
+                        flex flex-col justify-center items-center"> */}
+                {children}
+            {/* </main> */}
+        </div>
     );
 }

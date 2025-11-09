@@ -13,6 +13,7 @@ type Props = {
 
 export function BingoInputForm({ initValue = "", isEdit = false, onSubmit, onCancel }: Props) {
     const [value, setValue] = useState(initValue);
+    const maxLength = 20;
 
     useEffect(() => {
         setValue(initValue);
@@ -21,7 +22,7 @@ export function BingoInputForm({ initValue = "", isEdit = false, onSubmit, onCan
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!value.trim()) return;
-        if (value.length > 30) return;
+        if (value.length > maxLength) return;
         onSubmit(value);
         setValue("");
     };
@@ -32,7 +33,7 @@ export function BingoInputForm({ initValue = "", isEdit = false, onSubmit, onCan
     };
 
     const handleChange = (value: string) => {
-        if(value.length <= 30) {
+        if(value.length <= maxLength) {
             setValue(value);
         }
     }
@@ -50,7 +51,7 @@ export function BingoInputForm({ initValue = "", isEdit = false, onSubmit, onCan
             />
             <div className="flex justify-end gap-2">
                 <Button type="button" onClick={handleCancel} className="bg-white text-black hover:bg-gray-200">취소</Button>
-                <Button type="submit" disabled={value.length > 30}>{!isEdit ? "추가" : "수정"} </Button>
+                <Button type="submit" disabled={value.length > maxLength}>{!isEdit ? "추가" : "수정"} </Button>
             </div>
         </form>
     );

@@ -39,9 +39,9 @@ export default function BingoGridItem({
             className={clsx(
                 "relative w-full pt-[100%] rounded-3xl border-2 transition-all duration-300 cursor-pointer",
                 {
-                    "border-(--border-color-empty) bg-(--bg-color-empty) text-(--text-color-empty) hover:shadow-lg":
+                    "border-(--border-color-empty) bg-(--bg-color-empty) text-(--text-color-empty) hover:shadow-lg  font-medium":
                         !item.isCompleted && !item.disabled,
-                    "bg-(--bg-color-completed)":
+                    "bg-(--bg-color-completed) font-semibold":
                         item.isCompleted && !item.disabled,
                     "border-(--border-color-bingo) bg-(--bg-color-bingo) text-(--text-color-bingo) scale-110":
                         item.isCompleted && item.disabled,
@@ -51,7 +51,7 @@ export default function BingoGridItem({
                 className="absolute inset-0 flex flex-col items-center justify-center text-center p-3"
                 onClick={handleClick}
             >
-                <p className="text-sm wrap-break-word leading-snug">
+                <p className="text-sm break-all">
                     {item.content || "+"}
                 </p>
                 {item.content && !item.isCompleted && (
