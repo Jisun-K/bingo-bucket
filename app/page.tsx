@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useBingoStore } from "@/store/useBingoStore";
-import BingoGrid from "@/components/bingo/BingoGrid";
+import BingoBoard from "@/components/bingo/BingoBoard";
 import ThemeSelect from "@/components/common/ThemeSelect";
 
 export default function Home() {
@@ -26,7 +26,7 @@ export default function Home() {
                     </p>
                     <ThemeSelect />
                 </header>
-                <BingoGrid boardId={boardId} />
+                <BingoBoard boardId={boardId} />
             </div>
         </div>
 
