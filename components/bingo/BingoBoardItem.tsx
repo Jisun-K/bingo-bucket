@@ -10,7 +10,7 @@ type Props = {
     onToggleComplete?: () => void;
 };
 
-export default function BingoGridItem({
+export default function BingoBoardItem({
     item,
     onAdd,
     onEdit,

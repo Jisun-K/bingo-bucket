@@ -2,7 +2,7 @@
 
 import { useModalStore } from "@/store/useModalStore";
 import { BingoInputForm } from "./BingoInputForm";
-import BingoGridItem from "./BingoGridItem";
+import BingoBoardItem from "./BingoBoardItem";
 import { useBingoBoard } from "@/hooks/useBingoBoard";
 import { BingoItem } from "@/types/bingo";
 import { useBingoListner } from "@/hooks/useBingoListenr";
@@ -11,7 +11,7 @@ type Props = {
     boardId: string
 }
 
-export default function BingoGrid({ boardId }: Props) {
+export default function BingoBoard({ boardId }: Props) {
     const modal = useModalStore();
     const { board, addItem, editItem, deleteItem, toggleCompleted } = useBingoBoard(boardId);
     useBingoListner(boardId);
@@ -47,10 +47,12 @@ export default function BingoGrid({ boardId }: Props) {
     const handleDeleteItem = (id: string) => { deleteItem(id); };
 
     return (
-        <div className="grid gap-4 grid-cols-3">
-            {board.items.map((item) => (
-                <BingoGridItem
-                    key={item.id}
+        <div className={`grid gap-4`}
+            style={{gridTemplateColumns: `repeat(${board?.size}, minmax(0,1fr))`}}
+        >
+            {board?.items.map((item) => (
+                <BingoBoardItem
+                    key={item.id}   
                     item={item}
                     onAdd={() => handleAddItem(item)}
                     onEdit={() => handleEditItem(item)}

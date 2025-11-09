@@ -22,6 +22,5 @@ export function useBingoListner(boardId: string) {
             if(current === totalPossibleLines) { open(); }
         }
     }, [board.bingoLines]);
-
     return {};
 }

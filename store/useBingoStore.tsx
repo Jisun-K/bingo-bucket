@@ -9,6 +9,7 @@ interface BingoState {
     createBingoBoard: (size?: number) => string;
     ensureBingoBoard: (size?: number) => string;
     getBingoBoard: (id: string) => BingoBoard;
+    setBingoBoardSize: (boardId: string, nweSize: number) => string;
     updateItem: (boardId: string, itemId: string, content: string, isEidt?: boolean) => void;
     resetItem: (boardId: string, itemId: string) => void;
     toggleComplete: (boardId: string, itemId: string) => void;
@@ -67,28 +68,40 @@ export const useBingoStore = create<BingoState>((set, get) => {
             if (!board) throw new Error(`Board not found: ${id}`);
             return board;
         },
-        updateItem: (boardId, itemId, content, isEdit = false) => {
+        setBingoBoardSize: (boardId, newSize) => {
             set(state => ({
-                boards: updateBingoItem(state.boards, boardId, itemId, item => ({
-                    ...item,
-                    content,
-                    createdAt: isEdit ? item.createdAt : new Date().toISOString(),
-                    updatedAt: new Date().toISOString()
-                }))
+                boards: state.boards.map(board =>
+                    board.id === boardId ? {
+                        ...board,
+                        items: Array.from({ length: newSize * newSize }, (_, i) => createBingoItem(boardId, i)),
+                        size: newSize
+                    } : board
+                )
             }));
+return boardId;
         },
-        resetItem: (boardId, itemId) => {
-            set(state => ({
-                boards: updateBingoItem(state.boards, boardId, itemId, item => ({
-                    ...item,
-                    content: '',
-                    isCompleted: false,
-                    createdAt: '',
-                    updatedAt: '',
-                    disabled: false,
-                }))
-            }));
-        },
+updateItem: (boardId, itemId, content, isEdit = false) => {
+    set(state => ({
+        boards: updateBingoItem(state.boards, boardId, itemId, item => ({
+            ...item,
+            content,
+            createdAt: isEdit ? item.createdAt : new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        }))
+    }));
+},
+    resetItem: (boardId, itemId) => {
+        set(state => ({
+            boards: updateBingoItem(state.boards, boardId, itemId, item => ({
+                ...item,
+                content: '',
+                isCompleted: false,
+                createdAt: '',
+                updatedAt: '',
+                disabled: false,
+            }))
+        }));
+    },
         toggleComplete: (boardId, itemId) => {
             set(state => ({
                 boards: updateBingoItem(state.boards, boardId, itemId, item => ({
@@ -101,30 +114,30 @@ export const useBingoStore = create<BingoState>((set, get) => {
 
             get().checkBingoLine(boardId);
         },
-        checkBingoLine: (boardId) => {
-            const board = get().getBingoBoard(boardId);
-            const bingoLines = checkBingo(board.items, board.size); //bingo 줄 배열
-            if (!bingoLines.completedLines) return;
+            checkBingoLine: (boardId) => {
+                const board = get().getBingoBoard(boardId);
+                const bingoLines = checkBingo(board.items, board.size); //bingo 줄 배열
+                if (!bingoLines.completedLines) return;
 
-            // bingo 완성된 id 
-            const disabledIds = bingoLines.completedLines.flatMap(line =>
-                line.map(idx => board.items[idx].id)
-            );
+                // bingo 완성된 id 
+                const disabledIds = bingoLines.completedLines.flatMap(line =>
+                    line.map(idx => board.items[idx].id)
+                );
 
-            set(state => ({
-                boards: state.boards.map(board =>
-                    board.id === boardId ? {
-                        ...board,
-                        items: board.items.map(item => ({
-                            ...item,
-                            disabled: disabledIds.includes(item.id),
-                            updatedAt: new Date().toISOString()
-                        })),
-                        updatedAt: new Date().toISOString(),
-                        bingoLines: bingoLines.completedLines
-                    } : board
-                )
-            }));
-        },
+                set(state => ({
+                    boards: state.boards.map(board =>
+                        board.id === boardId ? {
+                            ...board,
+                            items: board.items.map(item => ({
+                                ...item,
+                                disabled: disabledIds.includes(item.id),
+                                updatedAt: new Date().toISOString()
+                            })),
+                            updatedAt: new Date().toISOString(),
+                            bingoLines: bingoLines.completedLines
+                        } : board
+                    )
+                }));
+            },
     }
 }); 
