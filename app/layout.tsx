@@ -7,6 +7,7 @@ import ThemeProvider from "@/components/common/ThemeProvider";
 
 import { Toaster } from "sonner";
 import { Confetti } from "@/components/common/Confetti";
+import ClientLayout from "@/components/common/ClientLayout";
 
 const freesentation = localFont({
     src: [
@@ -48,12 +49,14 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={`${freesentation.variable} antialiased`}>
-                <ThemeProvider>
-                    {children}
-                    <Modal />
-                    <Toaster position="top-center" />
-                    <Confetti />
-                </ThemeProvider>
+                <ClientLayout>
+                    <ThemeProvider>
+                        {children}
+                        <Modal />
+                        <Toaster position="top-center" />
+                        <Confetti />
+                    </ThemeProvider>
+                </ClientLayout>
             </body>
         </html>
     );
