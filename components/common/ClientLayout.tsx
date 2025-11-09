@@ -13,6 +13,6 @@ export default function ClientLayout({ children }: Readonly<{children: React.Rea
         return () => window.removeEventListener("resize", setVh);
     }, [])
     return (
-        <div className="h-dvh h-[calc(var(--vh, 1vh) * 100)]">{children}</div>
+        <div className="h-svh h-[calc(var(--vh, 1vh) * 100)]">{children}</div>
     );
 }
