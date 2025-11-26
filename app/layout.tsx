@@ -3,7 +3,6 @@ import localFont from 'next/font/local';
 import "./globals.css";
 
 import Modal from "@/components/common/Modal";
-import ThemeProvider from "@/components/common/ThemeProvider";
 
 import { Toaster } from "sonner";
 import { Confetti } from "@/components/common/Confetti";
@@ -50,12 +49,12 @@ export default function RootLayout({
         <html lang="en">
             <body className={`${freesentation.variable} antialiased`}>
                 <ClientLayout>
-                    <ThemeProvider>
+                    {/* <ThemeProvider> */}
                         {children}
                         <Modal />
                         <Toaster position="top-center" />
                         <Confetti />
-                    </ThemeProvider>
+                    {/* </ThemeProvider> */}
                 </ClientLayout>
             </body>
         </html>

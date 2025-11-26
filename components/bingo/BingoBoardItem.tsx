@@ -1,8 +1,9 @@
-import { useThemeStore } from "@/store/useThemeStore";
+import { ThemeType } from "@/config/themeConfig";
 import { BingoItem } from "@/types/bingo";
 import clsx from "clsx";
 
 type Props = {
+    theme: ThemeType;
     item: BingoItem;
     onAdd: () => void;
     onEdit?: () => void;
@@ -11,13 +12,13 @@ type Props = {
 };
 
 export default function BingoBoardItem({
+    theme,
     item,
     onAdd,
     onEdit,
     onDelete,
     onToggleComplete,
 }: Props) {
-    const { theme } = useThemeStore();
     const darkTheme = ["midnight", "forest", "nebula"];
 
     const buttons = [

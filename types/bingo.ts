@@ -1,3 +1,4 @@
+import { ThemeType } from "@/config/themeConfig";
 
 export interface BingoItem {
     id: string;
@@ -16,6 +17,7 @@ export interface BingoBoard {
     items: BingoItem[];
     createdAt: string;
     updatedAt: string;
+    theme?: ThemeType;
     bingoLines?: number[][],
     title?: string;
     period?: string;

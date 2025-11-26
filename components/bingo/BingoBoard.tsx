@@ -51,6 +51,7 @@ export default function BingoBoard({ boardId }: Props) {
             {board.items.map((item) => (
                 <BingoBoardItem
                     key={item.id}
+                    theme={board.theme!}
                     item={item}
                     onAdd={() => handleAddItem(item)}
                     onEdit={() => handleEditItem(item)}

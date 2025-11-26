@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware"; 
+import { persist, createJSONStorage } from "zustand/middleware";
 import { nanoid } from "nanoid";
 import { BingoBoard, BingoItem } from "@/types/bingo";
 import { checkBingo } from "@/lib/bingo/checkBingo";
@@ -7,8 +7,9 @@ import { checkBingo } from "@/lib/bingo/checkBingo";
 interface BingoState {
     boards: BingoBoard[],
     createBingoBoard: (size?: number) => string;
-    ensureBingoBoard: (size?: number) => string;
-    getBingoBoard: (id: string) => BingoBoard;
+    ensureBingoBoard: (size?: number) => string; 
+    getBingoBoard: (id: string) => BingoBoard | undefined;
+    updateBingoBoard: (boardId: string, updater: (board: BingoBoard) => Partial<BingoBoard>) => void;
     updateItem: (boardId: string, itemId: string, content: string, isEidt?: boolean) => void;
     resetItem: (boardId: string, itemId: string) => void;
     toggleComplete: (boardId: string, itemId: string) => void;
@@ -52,6 +53,7 @@ export const useBingoStore = create<BingoState>()(
                         boards: [...state.boards, {
                             id: boardId,
                             size,
+                            theme: 'default',
                             items,
                             createdAt: new Date().toISOString(),
                             updatedAt: new Date().toISOString(),
@@ -64,10 +66,19 @@ export const useBingoStore = create<BingoState>()(
                     if (boards.length > 0) { return boards[0].id }
                     return createBingoBoard(size);
                 },
-                getBingoBoard: (id: string): BingoBoard => {
+                getBingoBoard: (id: string): BingoBoard | undefined => {
                     const board = get().boards.find(b => b.id === id);
-                    if (!board) throw new Error(`Board not found: ${id}`);
+                    // if (!board) throw new Error(`Board not found: ${id}`);
                     return board;
+                },
+                updateBingoBoard: (boardId, updater) => {
+                    set(state => ({
+                        boards: state.boards.map(board =>
+                            board.id === boardId
+                                ? { ...board, ...updater(board), updatedAt: new Date().toISOString() }
+                                : board
+                        )
+                    }));
                 },
                 updateItem: (boardId, itemId, content, isEdit = false) => {
                     set(state => ({
@@ -105,6 +116,7 @@ export const useBingoStore = create<BingoState>()(
                 },
                 checkBingoLine: (boardId) => {
                     const board = get().getBingoBoard(boardId);
+                    if(!board) return;
                     const bingoLines = checkBingo(board.items, board.size);
                     if (!bingoLines.completedLines) return;
 
@@ -130,8 +142,8 @@ export const useBingoStore = create<BingoState>()(
             };
         },
         {
-            name: 'bingle-storage', 
-            storage: createJSONStorage(() => localStorage), 
+            name: 'bingle-storage',
+            storage: createJSONStorage(() => localStorage),
         }
     )
 );
