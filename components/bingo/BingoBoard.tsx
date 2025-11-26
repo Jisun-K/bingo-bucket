@@ -48,7 +48,7 @@ export default function BingoBoard({ boardId }: Props) {
 
     return (
         <div className="grid gap-4 grid-cols-3">
-            {board.items.map((item) => (
+            {board?.items.map((item) => (
                 <BingoBoardItem
                     key={item.id}
                     theme={board.theme!}
