@@ -5,7 +5,9 @@ import { BingoInputForm } from "./BingoInputForm";
 import BingoBoardItem from "./BingoBoardItem";
 import { useBingoBoard } from "@/hooks/useBingoBoard";
 import { BingoItem } from "@/types/bingo";
-import { useBingoListner } from "@/hooks/useBingoListenr";
+import { useBingoListener } from "@/hooks/useBingoListener";
+import { useBingogoControl } from "@/hooks/useBingoControl";
+import { Button } from "../ui/button";
 
 type Props = {
     boardId: string
@@ -13,8 +15,28 @@ type Props = {
 
 export default function BingoBoard({ boardId }: Props) {
     const modal = useModalStore();
+    const { createNewBoard } = useBingogoControl();
     const { board, addItem, editItem, deleteItem, toggleCompleted } = useBingoBoard(boardId);
-    useBingoListner(boardId);
+    useBingoListener({
+        boardId,
+        onAllClear: () => {
+            modal.open({
+                title: "🏆 모두 클리어했어요!",
+                description: "훌륭해요! 이제 새로운 목표를 설정해볼까요?",
+                children: <div>
+                    <div className="flex gap-2 justify-end mt-4">
+                        <Button type="button" className="bg-white text-black hover:bg-gray-200" onClick={() => modal.close()}> 닫기 </Button>
+                        <Button onClick={handleRestart}> 새로 하기 </Button>
+                    </div>
+                </div>
+            });
+        }
+    });
+
+    const handleRestart = () => {
+        createNewBoard(3);
+        modal.close();
+    };
 
     const openBingoInputModal = (item: BingoItem, isEdit: boolean) => {
         modal.open({
