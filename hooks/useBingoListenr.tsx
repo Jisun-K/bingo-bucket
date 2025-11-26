@@ -7,11 +7,11 @@ import { useCelebrationStore } from "@/store/useCelebration";
 
 export function useBingoListner(boardId: string) {
     const board = useBingoStore((state) => state.getBingoBoard(boardId));
-    const prevBingoCount = useRef(board.bingoLines?.length || 0);
+    const prevBingoCount = useRef(board?.bingoLines?.length || 0);
     const { open } = useCelebrationStore();
 
     useEffect(() => {
-        if (!board.bingoLines) return;
+        if (!board?.bingoLines) return;
         const current = board.bingoLines.length;
         const totalPossibleLines = board.size * 2 + 2;
 
@@ -21,7 +21,7 @@ export function useBingoListner(boardId: string) {
 
             if(current === totalPossibleLines) { open(); }
         }
-    }, [board.bingoLines]);
+    }, [board?.bingoLines]);
 
     return {};
 }
