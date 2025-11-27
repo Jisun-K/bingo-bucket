@@ -1,6 +1,7 @@
 import { ThemeType } from "@/config/themeConfig";
 import { BingoItem } from "@/types/bingo";
 import clsx from "clsx";
+import ThemedIcon from "../common/ThemedIcon";
 
 type Props = {
     theme: ThemeType;
@@ -19,8 +20,6 @@ export default function BingoBoardItem({
     onDelete,
     onToggleComplete,
 }: Props) {
-    const darkTheme = ["midnight", "forest", "nebula"];
-
     const buttons = [
         { action: "edit", icon: "/icons/ic_modify.svg", alt: "수정", onClick: onEdit },
         { action: "delete", icon: "/icons/ic_delete.svg", alt: "삭제", onClick: onDelete },
@@ -66,14 +65,7 @@ export default function BingoBoardItem({
                                     button.onClick?.();
                                 }}
                             >
-                                <img
-                                    src={button.icon}
-                                    alt={button.alt}
-                                    className={clsx(
-                                        "w-5 h-5 transition-all duration-100",
-                                        darkTheme.includes(theme) && "invert"
-                                    )}
-                                />
+                                <ThemedIcon icon={button.icon} alt={button.alt} theme={theme} />
                             </button>
                         ))}
                     </div>
