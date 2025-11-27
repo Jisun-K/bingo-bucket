@@ -6,6 +6,8 @@ import { checkBingo } from "@/lib/bingo/checkBingo";
 
 interface BingoState {
     boards: BingoBoard[],
+    lastActiveBoardId: string;
+    setLastActiveBingoBoardId: (id: string) => void;
     createBingoBoard: (size?: number) => string;
     ensureBingoBoard: (size?: number) => string; 
     getBingoBoard: (id: string) => BingoBoard | undefined;
@@ -46,6 +48,10 @@ export const useBingoStore = create<BingoState>()(
 
             return {
                 boards: [],
+                lastActiveBoardId: '',
+                setLastActiveBingoBoardId: (id: string) => {
+                    set({ lastActiveBoardId: id });
+                },
                 createBingoBoard: (size = 3) => {
                     const boardId = nanoid();
                     const items = Array.from({ length: size * size }, (_, i) => createBingoItem(boardId, i));
@@ -53,6 +59,7 @@ export const useBingoStore = create<BingoState>()(
                         boards: [...state.boards, {
                             id: boardId,
                             size,
+                            title: "제목 없음",
                             theme: 'default',
                             items,
                             createdAt: new Date().toISOString(),
@@ -61,8 +68,16 @@ export const useBingoStore = create<BingoState>()(
                     }));
                     return boardId;
                 },
+                // 보드가 있는지 확인하는 함수
+                // 보드를 여러개 생성할 수 있는 기능이 추가되었으니, 
+                // 이 기능도 수정해야함.
                 ensureBingoBoard: (size = 3) => {
-                    const { boards, createBingoBoard } = get();
+                    const { boards, createBingoBoard, lastActiveBoardId} = get();
+                    if(lastActiveBoardId) {
+                        const lastBingoBoard = boards.find(b => b.id === lastActiveBoardId);
+                        if(lastBingoBoard) { return lastBingoBoard.id; };
+                    }
+                    
                     if (boards.length > 0) { return boards[0].id }
                     return createBingoBoard(size);
                 },

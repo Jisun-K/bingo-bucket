@@ -9,26 +9,37 @@ import { BingoSheet } from "@/components/bingo/BingoSheet";
 
 import { useBingoBoard } from "@/hooks/useBingoBoard";
 import { useThemeEffect } from "@/hooks/useThemeEffect";
+import { useBingoStore } from "@/store/useBingoStore";
 
 export default function BingoBoardPage() {
     const { id } = useParams();
     const [isLoaded, setIsLoaded] = useState(false);
+    const { setLastActiveBingoBoardId } = useBingoStore();
     if (typeof id !== "string") return null;
 
     useEffect(() => {
         setIsLoaded(true);
-    }, []);
+        if (typeof id === "string") {
+            setLastActiveBingoBoardId(id);
+        };
+    }, [id, setLastActiveBingoBoardId]);
 
-    const { board, updateBoard } = useBingoBoard(id);
-    const currentTheme = isLoaded ? board?.theme || 'default' : 'default';
+    const safeId = typeof id === "string" ? id : "";
+    const { board, updateBoard } = useBingoBoard(safeId);
+
+    const currentTheme = isLoaded && board?.theme ? board.theme : 'default';
     useThemeEffect(currentTheme);
 
+    if (!isLoaded) {
+        return null;
+    }
+
     return (
-        <div className="text-(--text-color-base) min-h-screen flex items-center p-4 mx-auto max-w-md">
+        <div className="relative text-(--text-color-base) min-h-screen flex items-center p-4 mx-auto max-w-md">
             <div className="w-full">
-                <header className="flex items-center justify-end mb-10">
-                    <BingoSheet theme={currentTheme} />
-                </header>
+                <div className="absolute top-15 right-4">
+                    <BingoSheet theme={currentTheme}/>
+                </div>
                 <div className="text-center mb-10">
                     <p className="mt-2 mb-5 text-xl">
                         하나씩 채워가며, 빙고를 완성해보세요!

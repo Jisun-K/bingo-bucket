@@ -1,7 +1,7 @@
+import clsx from "clsx";
+import { Eraser, Trash2 } from "lucide-react";
 import { ThemeType } from "@/config/themeConfig";
 import { BingoItem } from "@/types/bingo";
-import clsx from "clsx";
-import ThemedIcon from "../common/ThemedIcon";
 
 type Props = {
     theme: ThemeType;
@@ -21,8 +21,8 @@ export default function BingoBoardItem({
     onToggleComplete,
 }: Props) {
     const buttons = [
-        { action: "edit", icon: "/icons/ic_modify.svg", alt: "수정", onClick: onEdit },
-        { action: "delete", icon: "/icons/ic_delete.svg", alt: "삭제", onClick: onDelete },
+        { action: "edit", icon: Eraser, onClick: onEdit, style: "" },
+        { action: "delete", icon: Trash2, onClick: onDelete, style: "hover:text-red-500" },
     ];
 
     const handleClick = () => {
@@ -48,9 +48,9 @@ export default function BingoBoardItem({
                 }
             )}
         >            <div
-                className="absolute inset-0 flex flex-col items-center justify-center text-center p-3"
-                onClick={handleClick}
-            >
+            className="absolute inset-0 flex flex-col items-center justify-center text-center p-3"
+            onClick={handleClick}
+        >
                 <p className="text-sm break-all">
                     {item.content || "+"}
                 </p>
@@ -59,18 +59,21 @@ export default function BingoBoardItem({
                         {buttons.map((button) => (
                             <button
                                 key={button.action}
-                                className="p-1 rounded-full hover:shadow-md transition-shadow duration-200"
+                                className={clsx(
+                                    "p-1 rounded-md hover:bg-(--bg-color-completed) hover:shadow-md transition-shadow duration-200",
+                                    button.style,
+                                )}
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     button.onClick?.();
                                 }}
                             >
-                                <ThemedIcon icon={button.icon} alt={button.alt} theme={theme} />
+                                <button.icon size={16} />
                             </button>
                         ))}
                     </div>
                 )}
             </div>
-        </div>
+        </div >
     );
 }

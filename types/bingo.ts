@@ -14,11 +14,11 @@ export interface BingoItem {
 export interface BingoBoard {
     id: string;
     size: number;
+    title: string;
     items: BingoItem[];
     createdAt: string;
     updatedAt: string;
     theme?: ThemeType;
     bingoLines?: number[][],
-    title?: string;
     period?: string;
 }

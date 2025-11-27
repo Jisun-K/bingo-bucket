@@ -1,9 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useBingoStore } from "@/store/useBingoStore";
-import BingoBoard from "@/components/bingo/BingoBoard";
-import ThemeSelect from "@/components/common/ThemeSelect";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -12,7 +10,8 @@ export default function Home() {
 
     useEffect(() => {
         const id = ensureBingoBoard(3);
-        router.push(`/bingo/${id}`);
+        // 페이지가 추가되면 이 부분도 수정 필요
+        router.replace(`/bingo/${id}`);
     }, []);
 
     return (

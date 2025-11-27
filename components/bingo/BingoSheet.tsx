@@ -1,21 +1,37 @@
-import { ThemeType } from "@/config/themeConfig";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
-import ThemedIcon from "../common/ThemedIcon";
+"use client";
 
-export function BingoSheet({ theme }: { theme: ThemeType }) {
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { ThemeType } from "@/config/themeConfig";
+import { useBingoStore } from "@/store/useBingoStore";
+import BingoListItem from "./BingoListItem";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
+import { LayoutGrid } from "lucide-react";
+
+export function BingoSheet({ theme }:  {theme: ThemeType}) {
+    const router = useRouter();
+    const { boards } = useBingoStore();
+
+    const handleMove = (id: string) => {
+        router.push(`/bingo/${id}`);
+    }
+
     return (
         <Sheet>
             <SheetTrigger>
-                <ThemedIcon icon="/icons/ic_bingo_list_20.svg" alt="빙고 리스트 버튼" theme={theme} style="w-9 h-9"/>
+                <LayoutGrid size={20} />
             </SheetTrigger>
-            <SheetContent>
+            <SheetContent className="p-4">
+                {/* 경고 뜨는 거 방지용 */}
                 <SheetHeader>
-                    <SheetTitle>빙고판을 </SheetTitle>
-                    <SheetDescription>
-                        This action cannot be undone. This will permanently delete your account
-                        and remove your data from our servers.
-                    </SheetDescription>
+                    <SheetTitle></SheetTitle>
+                    <SheetDescription></SheetDescription>
                 </SheetHeader>
+                <div className="">
+                    { boards.map((board) => (
+                        <BingoListItem key={board.id} board={board} isActive={false} onSelect={(id) => handleMove(id)} onUpdateTitle={() => {}} onDelete={() => {}} />    
+                    ))}
+                </div>
             </SheetContent>
         </Sheet>
     );
