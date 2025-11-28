@@ -25,7 +25,6 @@ function BingoListItem({
     const [isEditing, setIsEditing] = useState(false);
     const [title, setTitle] = useState(board.title || "");
     
-    // ✨ [추가] 포커스 제어를 위한 Ref
     const inputRef = useRef<HTMLInputElement>(null);
 
     const completedCount = board.bingoLines?.length || 0;
@@ -33,7 +32,6 @@ function BingoListItem({
     const totalCount = board.size * 2 + 2;
     const progress = Math.min((completedCount / totalCount) * 100, 100);
 
-    // ✨ [추가] 수정 모드가 되면 자동으로 포커스
     useEffect(() => {
         if (isEditing && inputRef.current) {
             inputRef.current.focus();
@@ -50,7 +48,6 @@ function BingoListItem({
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
-        // 한글 입력 중 엔터 중복 방지
         if (e.key === "Enter" && !e.nativeEvent.isComposing) {
             handleUpdate();
         }
@@ -65,7 +62,6 @@ function BingoListItem({
             data-theme={itemTheme}
             className={clsx(
                 "group relative flex flex-col gap-3 p-4 mb-4 rounded-xl transition-all hover:shadow-md border-2",
-                // ring 대신 border 색상 변경으로 통일 (충돌 방지)
                 isActive
                     ? "border-(--bg-color-bingo) bg-(--bg-color-bingo)/20"
                     : "border-(--border-color-bingo) bg-[#FAFAFA]"
@@ -78,11 +74,9 @@ function BingoListItem({
                     <button
                         onClick={(e) => {
                             e.stopPropagation();
-                            // 켜질 때 초기화
                             if (!isEditing) { setTitle(board.title || ""); }
                             setIsEditing(!isEditing);
                         }}
-                        // ✨ [핵심] 버튼 누를 때 Input의 Blur(저장)가 먼저 터지는 것 방지
                         onMouseDown={(e) => e.preventDefault()}
                         className="p-1.5 text-gray-400 hover:bg-gray-50 active:bg-gray-50 rounded-md transition-colors"
                     >
@@ -99,13 +93,10 @@ function BingoListItem({
             </div>
 
             <div 
-                // 수정 중이 아닐 때만(disabled 상태) 클릭 시 이동
                 onClick={!isEditing ? onSelect : undefined} 
                 className="cursor-pointer"
             >
-                {/* 높이 고정 컨테이너 */}
                 <div className="relative h-7 w-full">
-                    {/* ✨ [핵심] H3 태그 삭제! 하나의 Input으로 껐다 켰다 처리 */}
                     <input
                         ref={inputRef}
                         type="text"
