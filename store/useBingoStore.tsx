@@ -103,6 +103,7 @@ export const useBingoStore = create<BingoState>()(
                         if (state.lastActiveBoardId === boardId) {
                             newActiveId = newBoards.length > 0 ? newBoards[0].id : '';
                         }
+                            
                         return {
                             boards: newBoards,
                             lastActiveBoardId: newActiveId,
