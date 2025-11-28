@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { useBingoStore } from "@/store/useBingoStore";
 import { toast } from "sonner";
-import { useCelebrationStore } from "@/store/useCelebration";
+import { useCelebrationStore } from "@/store/useCelebrationStore";
 
 interface UseBingoListenerProps {
     boardId: string;

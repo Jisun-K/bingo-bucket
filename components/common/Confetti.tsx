@@ -1,7 +1,8 @@
 "use client";
 
-import { useCelebrationStore } from "@/store/useCelebration";
+import { useCelebrationStore } from "@/store/useCelebrationStore";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 interface ConfettiPiece {
     x: number;
@@ -17,15 +18,30 @@ interface ConfettiPiece {
 }
 
 export function Confetti() {
-    const { isShow, close } = useCelebrationStore();
+    const { isShow, close, count } = useCelebrationStore();
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const animationRef = useRef<number>(0);
     const confettiPiecesRef = useRef<ConfettiPiece[]>([]);
+    
+    const fadeOutRef = useRef(false);
     const [fadeOut, setFadeOut] = useState(false);
+    
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    useEffect(() => {
+        fadeOutRef.current = fadeOut;
+    }, [fadeOut]);
 
     useEffect(() => {
         if (!isShow) return;
+
+        setFadeOut(false);
+        fadeOutRef.current = false;
 
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -33,7 +49,6 @@ export function Confetti() {
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        // Set canvas size
         const resizeCanvas = () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -68,7 +83,6 @@ export function Confetti() {
 
         createConfetti();
 
-        // Draw confetti piece
         const drawPiece = (piece: ConfettiPiece) => {
             ctx.save();
             ctx.translate(piece.x, piece.y);
@@ -89,23 +103,30 @@ export function Confetti() {
                 ctx.closePath();
                 ctx.fill();
             }
-
             ctx.restore();
         };
 
         let opacity = 1;
         const animate = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (fadeOutRef.current) {
+                opacity -= 0.02;
+                if (opacity <= 0) {
+                    opacity = 0;
+                    close();
+                    return;
+                }
+            }
+            
             ctx.globalAlpha = opacity;
 
             confettiPiecesRef.current.forEach((piece) => {
-                // Update position
                 piece.x += piece.speedX;
                 piece.y += piece.speedY;
                 piece.speedY += piece.gravity;
                 piece.rotation += piece.rotationSpeed;
 
-                // Reset if out of bounds
                 if (piece.y > canvas.height + 50) {
                     piece.y = -50;
                     piece.x = Math.random() * canvas.width;
@@ -118,37 +139,29 @@ export function Confetti() {
                 drawPiece(piece);
             });
 
-            if(fadeOut) {
-                opacity -= 0.02;
-                if(opacity <= 0) {
-                    opacity = 0;
-                    close();
-                    return;
-                }
-            }
-
             animationRef.current = requestAnimationFrame(animate);
         };
 
         animate();
 
-        // Cleanup
         return () => {
             if (animationRef.current) {
                 cancelAnimationFrame(animationRef.current);
             }
             window.removeEventListener('resize', resizeCanvas);
         };
-    }, [isShow, fadeOut, close]);
+    }, [isShow, count, close]); 
 
-    if (!isShow) return null;
+    if (!mounted || !isShow) return null;
+    if (typeof window === 'undefined') return null;
 
-    return (
+    return createPortal(
         <canvas
             ref={canvasRef}
-            className="fixed inset-0 pointer-events-auto z-50 transition-opacity duration-300 ease-out "
+            className="fixed inset-0 pointer-events-auto z-50 transition-opacity duration-300 ease-out"
             style={{ width: '100%', height: '100%', opacity: fadeOut ? 0 : 1 }}
             onClick={() => setFadeOut(true)}
-        />
+        />,
+        document.body
     );
 }
