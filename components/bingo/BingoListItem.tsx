@@ -26,6 +26,7 @@ export default function BingoListItem({
     const [title, setTitle] = useState(board.title || "");
 
     const completedCount = board.bingoLines?.length || 0;
+    const itemTheme = board.theme || "default";
     const totalCount = board.size * 2 + 2;
     const progress = Math.min((completedCount / totalCount) * 100, 100);
 
@@ -40,6 +41,7 @@ export default function BingoListItem({
 
     return (
         <div
+            data-theme={itemTheme}
             className={clsx(
                 "group relative flex flex-col gap-3 p-4 mb-4 rounded-xl bg-[#FAFAFA] border-(--border-color-bingo) border transition-all hover:shadow-md",
                 { "bg-(--bg-color-bingo)/10 border-2 ring-1 ring-(--bg-color-bingo)": isActive }
