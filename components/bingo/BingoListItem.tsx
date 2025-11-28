@@ -43,8 +43,9 @@ export default function BingoListItem({
         <div
             data-theme={itemTheme}
             className={clsx(
-                "group relative flex flex-col gap-3 p-4 mb-4 rounded-xl bg-[#FAFAFA] border-(--border-color-bingo) border transition-all hover:shadow-md",
-                { "bg-(--bg-color-bingo)/10 border-2 ring-1 ring-(--bg-color-bingo)": isActive }
+                "group relative flex flex-col gap-3 p-4 mb-4 rounded-xl  border-(--border-color-bingo) border transition-all hover:shadow-md",
+                isActive ? "bg-(--bg-color-bingo)/10 border-2 ring-1 ring-(--bg-color-bingo)" : "bg-[#FAFAFA]"
+                // { "bg-(--bg-color-bingo)/10 border-2 ring-1 ring-(--bg-color-bingo)": isActive }
             )}
         >
             <div className="flex justify-between items-center">
@@ -75,7 +76,7 @@ export default function BingoListItem({
                             onKeyDown={handleKeyDown}
                             onBlur={handleUpdate}
                             placeholder={title}
-                            className="w-full px-2 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-gray-200"
+                            className="w-full px-2 py-1 border rounded focus:outline-none border-none"
                             autoFocus
                         />
                     </div>
