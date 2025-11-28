@@ -1,23 +1,24 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { ThemeType } from "@/config/themeConfig";
 import { useBingoStore } from "@/store/useBingoStore";
 import BingoListItem from "./BingoListItem";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
 import { LayoutGrid } from "lucide-react";
-import { useBingoBoard } from "@/hooks/useBingoBoard";
 import { useModalStore } from "@/store/useModalStore";
-import { Button } from "../ui/button";
 import { useBoardControl } from "@/hooks/useBoardControl";
 
 export function BingoSheet({ theme }: { theme: ThemeType }) {
     const router = useRouter();
+    const params = useParams();
     const { boards } = useBingoStore();
     const { deleteBoard } = useBoardControl();
     const updateBoard = useBingoStore((state) => state.updateBingoBoard);
     const modal = useModalStore();
+
+    const currActiveId = params.id;
 
     const handleUpdateTitle = (id: string, title: string) => {
         updateBoard(id, (prev) => ({ title: title || prev.title }));
@@ -47,18 +48,26 @@ export function BingoSheet({ theme }: { theme: ThemeType }) {
                     <SheetTitle></SheetTitle>
                     <SheetDescription></SheetDescription>
                 </SheetHeader>
-                <div className="">
-                    {boards.map((board) => (
-                        <BingoListItem key={board.id}
-                            board={board}
-                            isActive={false}
-                            onSelect={() => handleMove(board.id)}
-                            onUpdateTitle={(title) => handleUpdateTitle(board.id, title)}
-                            onDelete={() => handleDeleteItem(board.id)}
-                        />
-                    ))}
-                </div>
+                {boards && boards.length > 0 &&
+                    <div className="">
+                        {boards.map((board) => (
+                            <BingoListItem key={board.id}
+                                board={board}
+                                isActive={currActiveId === board.id}
+                                onSelect={() => handleMove(board.id)}
+                                onUpdateTitle={(title) => handleUpdateTitle(board.id, title)}
+                                onDelete={() => handleDeleteItem(board.id)}
+                            />
+                        ))}
+                    </div>
+                }
+                {boards.length === 0 && (
+                    <p className="text-center text-sm text-gray-500 mt-10">
+                        생성된 빙고판이 없습니다. <br />
+                        새 빙고판을 만들어보세요!
+                    </p>
+                )}
             </SheetContent>
-        </Sheet>
+        </Sheet >
     );
 } 

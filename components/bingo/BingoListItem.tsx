@@ -41,15 +41,13 @@ export default function BingoListItem({
     return (
         <div
             className={clsx(
-                "group relative flex flex-col gap-3 p-4 mb-4 rounded-xl border transition-all hover:shadow-md",
-                isActive
-                    ? `bg-(--bg-color-bingo)/10 ring-1 ring-(--bg-color-bingo)`
-                    : "border-(--border-color-bingo) border-3 bg-[#FAFAFA]"
+                "group relative flex flex-col gap-3 p-4 mb-4 rounded-xl bg-[#FAFAFA] border-(--border-color-bingo) border transition-all hover:shadow-md",
+                { "bg-(--bg-color-bingo)/10 border-2 ring-1 ring-(--bg-color-bingo)": isActive }
             )}
         >
             <div className="flex justify-between items-center">
                 <div className="w-4 h-4 rounded-full shadow-sm bg-(--bg-color-bingo)" />
-                
+
                 <div className="flex gap-1">
                     <button
                         onClick={(e) => { e.stopPropagation(); setIsEditing(!isEditing); }}
@@ -57,7 +55,7 @@ export default function BingoListItem({
                         <FileEdit size={14} />
                     </button>
                     <button
-                        onClick={(e) => { e.stopPropagation(); onDelete();}}
+                        onClick={(e) => { e.stopPropagation(); onDelete(); }}
                         className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-gray-50 rounded-md transition-colors"
                         title="삭제">
                         <Trash2 size={14} />
@@ -84,7 +82,7 @@ export default function BingoListItem({
                         {board.title}
                     </h3>
                 )}
-                
+
                 <p className="text-xs text-gray-500 mt-1">
                     {board.updatedAt}
                 </p>
@@ -103,7 +101,7 @@ export default function BingoListItem({
                     {Math.round(progress)}%
                 </span>
             </div>
-            
+
             {isActive && (
                 <span className="absolute top-4 right-1/2 translate-x-1/2 -translate-y-8 bg-black text-white text-[10px] px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                     현재 선택됨
