@@ -53,7 +53,7 @@ export function BingoSheet({ theme }: { theme: ThemeType }) {
                 <SheetDescription className="sr-only"></SheetDescription>
                 {/* </SheetHeader> */}
                 {boards && boards.length > 0 &&
-                    <div className="overflow-y-auto px-2 pt-1">
+                    <div className="overflow-y-auto px-2 pt-4">
                         {boards.map((board) => (
                             <BingoListItem key={board.id}
                                 board={board}
