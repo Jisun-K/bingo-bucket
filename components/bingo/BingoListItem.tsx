@@ -2,10 +2,11 @@
 
 import clsx from "clsx";
 import { useState } from "react";
-// import { format } from "date-fns";
-import { Edit2, Eraser, FileEdit, Trash2 } from "lucide-react";
+import { FileEdit, Trash2 } from "lucide-react";
+import { format } from "date-fns";
+import { ko } from "date-fns/locale";
 import { BingoBoard } from "@/types/bingo";
-import { ThemeType } from "@/config/themeConfig";
+
 
 interface BingoListItemProps {
     board: BingoBoard;
@@ -90,10 +91,9 @@ export default function BingoListItem({
                         {board.title}
                     </h3>
                 )}
-                {/* 
                 <p className="text-xs text-gray-500 mt-1">
-                    {board.updatedAt}
-                </p> */}
+                    {format(new Date(board.updatedAt), "yyyy. MM. dd.", { locale: ko })}
+                </p>
             </div>
 
             <div className="flex items-center gap-2 mt-1">
