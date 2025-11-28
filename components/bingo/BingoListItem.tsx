@@ -75,7 +75,7 @@ export default function BingoListItem({
                             onKeyDown={handleKeyDown}
                             onBlur={handleUpdate}
                             placeholder={title}
-                            className="w-full px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-gray-200"
+                            className="w-full px-2 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-gray-200"
                             autoFocus
                         />
                     </div>
