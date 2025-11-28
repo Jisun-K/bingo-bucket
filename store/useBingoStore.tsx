@@ -9,9 +9,11 @@ interface BingoState {
     lastActiveBoardId: string;
     setLastActiveBingoBoardId: (id: string) => void;
     createBingoBoard: (size?: number) => string;
-    ensureBingoBoard: (size?: number) => string; 
+    ensureBingoBoard: (size?: number) => string;
     getBingoBoard: (id: string) => BingoBoard | undefined;
     updateBingoBoard: (boardId: string, updater: (board: BingoBoard) => Partial<BingoBoard>) => void;
+    deleteBingoBoard: (boardId: string) => void;
+
     updateItem: (boardId: string, itemId: string, content: string, isEidt?: boolean) => void;
     resetItem: (boardId: string, itemId: string) => void;
     toggleComplete: (boardId: string, itemId: string) => void;
@@ -47,6 +49,7 @@ export const useBingoStore = create<BingoState>()(
             }
 
             return {
+                // B    oard 관련 메서드
                 boards: [],
                 lastActiveBoardId: '',
                 setLastActiveBingoBoardId: (id: string) => {
@@ -68,16 +71,13 @@ export const useBingoStore = create<BingoState>()(
                     }));
                     return boardId;
                 },
-                // 보드가 있는지 확인하는 함수
-                // 보드를 여러개 생성할 수 있는 기능이 추가되었으니, 
-                // 이 기능도 수정해야함.
                 ensureBingoBoard: (size = 3) => {
-                    const { boards, createBingoBoard, lastActiveBoardId} = get();
-                    if(lastActiveBoardId) {
+                    const { boards, createBingoBoard, lastActiveBoardId } = get();
+                    if (lastActiveBoardId) {
                         const lastBingoBoard = boards.find(b => b.id === lastActiveBoardId);
-                        if(lastBingoBoard) { return lastBingoBoard.id; };
+                        if (lastBingoBoard) { return lastBingoBoard.id; };
                     }
-                    
+
                     if (boards.length > 0) { return boards[0].id }
                     return createBingoBoard(size);
                 },
@@ -95,6 +95,22 @@ export const useBingoStore = create<BingoState>()(
                         )
                     }));
                 },
+                deleteBingoBoard: (boardId) => {
+                    set((state) => {
+                        const newBoards = state.boards.filter((board) => board.id !== boardId);
+                        let newActiveId = state.lastActiveBoardId;
+                        // active되어있는 보드를 지웠다면
+                        if (state.lastActiveBoardId === boardId) {
+                            newActiveId = newBoards.length > 0 ? newBoards[0].id : '';
+                        }
+                        return {
+                            boards: newBoards,
+                            lastActiveBoardId: newActiveId,
+                        };
+                    });
+                },
+
+                // Bingo Item 관련 메서드
                 updateItem: (boardId, itemId, content, isEdit = false) => {
                     set(state => ({
                         boards: updateBingoItem(state.boards, boardId, itemId, item => ({
@@ -131,7 +147,7 @@ export const useBingoStore = create<BingoState>()(
                 },
                 checkBingoLine: (boardId) => {
                     const board = get().getBingoBoard(boardId);
-                    if(!board) return;
+                    if (!board) return;
                     const bingoLines = checkBingo(board.items, board.size);
                     if (!bingoLines.completedLines) return;
 

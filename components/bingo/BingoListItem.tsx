@@ -3,14 +3,14 @@
 import clsx from "clsx";
 import { useState } from "react";
 // import { format } from "date-fns";
-import { Edit2, Eraser, Trash2 } from "lucide-react";
+import { Edit2, Eraser, FileEdit, Trash2 } from "lucide-react";
 import { BingoBoard } from "@/types/bingo";
 import { ThemeType } from "@/config/themeConfig";
 
 interface BingoListItemProps {
     board: BingoBoard;
     isActive: boolean;
-    onSelect: (id: string) => void;
+    onSelect: () => void;
     onUpdateTitle: (title: string) => void;
     onDelete: () => void;
 }
@@ -25,7 +25,6 @@ export default function BingoListItem({
     const [isEditing, setIsEditing] = useState(false);
     const [title, setTitle] = useState(board.title || "");
 
-    const theme = (board.theme as ThemeType) || "default";
     const completedCount = board.bingoLines?.length || 0;
     const totalCount = board.size * 2 + 2;
     const progress = Math.min((completedCount / totalCount) * 100, 100);
@@ -55,13 +54,10 @@ export default function BingoListItem({
                     <button
                         onClick={(e) => { e.stopPropagation(); setIsEditing(!isEditing); }}
                         className="p-1.5 text-gray-400 hover:bg-gray-50 rounded-md transition-colors">
-                        <Eraser size={14} />
+                        <FileEdit size={14} />
                     </button>
                     <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            if (confirm("정말 이 빙고판을 삭제하시겠습니까?")) onDelete();
-                        }}
+                        onClick={(e) => { e.stopPropagation(); onDelete();}}
                         className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-gray-50 rounded-md transition-colors"
                         title="삭제">
                         <Trash2 size={14} />
@@ -69,7 +65,7 @@ export default function BingoListItem({
                 </div>
             </div>
 
-            <div onClick={isEditing ? undefined : () => onSelect(board.id)} className="cursor-pointer">
+            <div onClick={isEditing ? undefined : onSelect} className="cursor-pointer">
                 {isEditing ? (
                     <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
                         <input
