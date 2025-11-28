@@ -1,12 +1,10 @@
 "use client";
-
-import { useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ThemeType } from "@/config/themeConfig";
 import { useBingoStore } from "@/store/useBingoStore";
 import BingoListItem from "./BingoListItem";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
-import { LayoutGrid } from "lucide-react";
+import { LayoutGrid, Plus } from "lucide-react";
 import { useModalStore } from "@/store/useModalStore";
 import { useBoardControl } from "@/hooks/useBoardControl";
 
@@ -14,7 +12,7 @@ export function BingoSheet({ theme }: { theme: ThemeType }) {
     const router = useRouter();
     const params = useParams();
     const { boards } = useBingoStore();
-    const { deleteBoard } = useBoardControl();
+    const { createNewBoard, deleteBoard } = useBoardControl();
     const updateBoard = useBingoStore((state) => state.updateBingoBoard);
     const modal = useModalStore();
 
@@ -43,13 +41,19 @@ export function BingoSheet({ theme }: { theme: ThemeType }) {
                 <LayoutGrid size={20} />
             </SheetTrigger>
             <SheetContent className="p-4">
-                {/* 경고 뜨는 거 방지용 */}
-                <SheetHeader>
-                    <SheetTitle></SheetTitle>
-                    <SheetDescription></SheetDescription>
-                </SheetHeader>
+                <button
+                    onClick={() => createNewBoard(3)}
+                    className="flex items-center justify-center gap-2 w-full py-3 bg-black text-white rounded-xl hover:bg-gray-800 transition-all font-bold shadow-sm active:scale-95"
+                >
+                    <Plus size={20} />
+                    <span>새 빙고 만들기</span>
+                </button>
+                {/* <SheetHeader> */}
+                <SheetTitle className="sr-only"></SheetTitle>
+                <SheetDescription className="sr-only"></SheetDescription>
+                {/* </SheetHeader> */}
                 {boards && boards.length > 0 &&
-                    <div className="">
+                    <div className="overflow-y-auto px-3 pt-1">
                         {boards.map((board) => (
                             <BingoListItem key={board.id}
                                 board={board}
@@ -61,6 +65,7 @@ export function BingoSheet({ theme }: { theme: ThemeType }) {
                         ))}
                     </div>
                 }
+
                 {boards.length === 0 && (
                     <p className="text-center text-sm text-gray-500 mt-10">
                         생성된 빙고판이 없습니다. <br />

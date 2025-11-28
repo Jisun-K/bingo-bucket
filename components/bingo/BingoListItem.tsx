@@ -44,7 +44,7 @@ export default function BingoListItem({
             data-theme={itemTheme}
             className={clsx(
                 "group relative flex flex-col gap-3 p-4 mb-4 rounded-xl  border-(--border-color-bingo) border transition-all hover:shadow-md",
-                isActive ? "bg-(--bg-color-bingo)/10 border-2 ring-1 ring-(--bg-color-bingo)" : "bg-[#FAFAFA]"
+                isActive ? "bg-(--bg-color-bingo)/20 border-2 ring-1 ring-(--bg-color-bingo)" : "bg-(--bg-color-bingo)/10"
                 // { "bg-(--bg-color-bingo)/10 border-2 ring-1 ring-(--bg-color-bingo)": isActive }
             )}
         >

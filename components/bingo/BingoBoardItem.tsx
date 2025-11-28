@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { Eraser, Trash2 } from "lucide-react";
+import { Eraser, Plus, Trash2 } from "lucide-react";
 import { ThemeType } from "@/config/themeConfig";
 import { BingoItem } from "@/types/bingo";
 
@@ -52,7 +52,7 @@ export default function BingoBoardItem({
             onClick={handleClick}
         >
                 <p className="text-sm break-all">
-                    {item.content || "+"}
+                    {item.content || <Plus size={14}/>}
                 </p>
                 {item.content && !item.isCompleted && (
                     <div className="absolute right-2 bottom-2 flex gap-1">
