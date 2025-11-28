@@ -59,12 +59,12 @@ export default function BingoListItem({
                             if(!isEditing) {setTitle(board.title);}
                         }}
                         onMouseDown={(e) => e.preventDefault()}
-                        className="p-1.5 text-gray-400 hover:bg-gray-50 rounded-md transition-colors">
+                        className="p-1.5 text-gray-400 hover:bg-gray-50 active:bg-gray-50 rounded-md transition-colors">
                         <FileEdit size={14} />
                     </button>
                     <button
                         onClick={(e) => { e.stopPropagation(); onDelete(); }}
-                        className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-gray-50 rounded-md transition-colors"
+                        className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-gray-50 active:text-red-500 active:bg-gray-50 rounded-md transition-colors"
                         title="삭제">
                         <Trash2 size={14} />
                     </button>
@@ -111,7 +111,7 @@ export default function BingoListItem({
             </div>
 
             {isActive && (
-                <span className="absolute top-4 right-1/2 translate-x-1/2 -translate-y-8 bg-black text-white text-[10px] px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                <span className="absolute top-4 right-1/2 translate-x-1/2 -translate-y-8 bg-black text-white text-[10px] px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-active:opacity-100">
                     현재 선택됨
                 </span>
             )}

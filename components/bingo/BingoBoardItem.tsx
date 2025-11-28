@@ -22,7 +22,7 @@ export default function BingoBoardItem({
 }: Props) {
     const buttons = [
         { action: "edit", icon: Eraser, onClick: onEdit, style: "" },
-        { action: "delete", icon: Trash2, onClick: onDelete, style: "hover:text-red-500" },
+        { action: "delete", icon: Trash2, onClick: onDelete, style: "hover:text-red-500 active:text-red-500" },
     ];
 
     const handleClick = () => {
@@ -60,7 +60,7 @@ export default function BingoBoardItem({
                             <button
                                 key={button.action}
                                 className={clsx(
-                                    "p-1 rounded-md hover:bg-(--bg-color-completed) hover:shadow-md transition-shadow duration-200",
+                                    "p-1 rounded-md hover:bg-(--bg-color-completed) hover:shadow-md transition-shadow duration-200 active:bg-(--bg-color-completed) active:shadow-md",
                                     button.style,
                                 )}
                                 onClick={(e) => {

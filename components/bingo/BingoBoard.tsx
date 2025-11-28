@@ -66,7 +66,7 @@ export default function BingoBoard({ boardId }: Props) {
     const handleDeleteItem = (id: string) => { deleteItem(id); };
 
     return (
-        <div className="grid gap-4 grid-cols-3">
+        <div className="grid gap-4 grid-cols-3 min-h-full">
             {board?.items.map((item) => (
                 <BingoBoardItem
                     key={item.id}
