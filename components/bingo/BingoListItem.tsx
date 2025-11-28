@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { FileEdit, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -16,7 +16,7 @@ interface BingoListItemProps {
     onDelete: () => void;
 }
 
-export default function BingoListItem({
+function BingoListItem({
     board,
     isActive,
     onSelect,
@@ -44,8 +44,8 @@ export default function BingoListItem({
         <div
             data-theme={itemTheme}
             className={clsx(
-                "group relative flex flex-col gap-3 p-4 mb-4 rounded-xl  border-(--border-color-bingo) border transition-all hover:shadow-md",
-                isActive ? "bg-(--bg-color-bingo)/20 border-2 ring-1 ring-(--bg-color-bingo)" : "bg-(--bg-color-bingo)/5"
+                "group relative flex flex-col gap-3 p-4 mb-4 rounded-xl  ring-1 ring-(--bg-color-bingo) transition-all hover:shadow-md",
+                isActive ? "bg-(--bg-color-bingo)/20 ring-2 ring-(--bg-color-bingo)" : "bg-(--bg-color-bingo)/5"
                 // { "bg-(--bg-color-bingo)/10 border-2 ring-1 ring-(--bg-color-bingo)": isActive }
             )}
         >
@@ -118,3 +118,5 @@ export default function BingoListItem({
         </div>
     );
 }
+
+export default memo(BingoListItem);
