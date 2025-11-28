@@ -16,7 +16,12 @@ export function BingoSheet({ theme }: { theme: ThemeType }) {
     const router = useRouter();
     const { boards } = useBingoStore();
     const { deleteBoard } = useBoardControl();
+    const updateBoard = useBingoStore((state) => state.updateBingoBoard);
     const modal = useModalStore();
+
+    const handleUpdateTitle = (id: string, title: string) => {
+        updateBoard(id, (prev) => ({ title: title || prev.title }));
+    }
 
     const handleMove = (id: string) => {
         router.push(`/bingo/${id}`);
@@ -27,9 +32,7 @@ export function BingoSheet({ theme }: { theme: ThemeType }) {
             title: "정말 삭제하시겠어요? 🗑️",
             description: "삭제된 빙고판은 복구할 수 없습니다.",
             confirmText: "삭제",
-            onConfirm: () => {
-                deleteBoard(id);
-            }
+            onConfirm: () => { deleteBoard(id); }
         });
     };
 
@@ -50,7 +53,7 @@ export function BingoSheet({ theme }: { theme: ThemeType }) {
                             board={board}
                             isActive={false}
                             onSelect={() => handleMove(board.id)}
-                            onUpdateTitle={() => { }}
+                            onUpdateTitle={(title) => handleUpdateTitle(board.id, title)}
                             onDelete={() => handleDeleteItem(board.id)}
                         />
                     ))}
