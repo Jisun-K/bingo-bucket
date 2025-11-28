@@ -84,10 +84,10 @@ export default function BingoListItem({
                         {board.title}
                     </h3>
                 )}
-
+{/* 
                 <p className="text-xs text-gray-500 mt-1">
                     {board.updatedAt}
-                </p>
+                </p> */}
             </div>
 
             <div className="flex items-center gap-2 mt-1">
