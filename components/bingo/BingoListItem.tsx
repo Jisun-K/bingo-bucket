@@ -1,12 +1,11 @@
 "use client";
 
 import clsx from "clsx";
-import { memo, useState } from "react";
+import { memo, useState, useRef, useEffect } from "react";
 import { FileEdit, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { BingoBoard } from "@/types/bingo";
-
 
 interface BingoListItemProps {
     board: BingoBoard;
@@ -25,28 +24,51 @@ function BingoListItem({
 }: BingoListItemProps) {
     const [isEditing, setIsEditing] = useState(false);
     const [title, setTitle] = useState(board.title || "");
+    
+    // ✨ [추가] 포커스 제어를 위한 Ref
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const completedCount = board.bingoLines?.length || 0;
     const itemTheme = board.theme || "default";
     const totalCount = board.size * 2 + 2;
     const progress = Math.min((completedCount / totalCount) * 100, 100);
 
+    // ✨ [추가] 수정 모드가 되면 자동으로 포커스
+    useEffect(() => {
+        if (isEditing && inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [isEditing]);
+
     const handleUpdate = () => {
-        onUpdateTitle(title);
+        if (!title.trim()) {
+            setTitle(board.title || "");
+        } else {
+            onUpdateTitle(title);
+        }
         setIsEditing(false);
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === "Enter") handleUpdate();
+        // 한글 입력 중 엔터 중복 방지
+        if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+            handleUpdate();
+        }
+        if (e.key === "Escape") {
+            setTitle(board.title || "");
+            setIsEditing(false);
+        }
     };
 
     return (
         <div
             data-theme={itemTheme}
             className={clsx(
-                "group relative flex flex-col gap-3 p-4 mb-4 rounded-xl  ring-1 ring-(--bg-color-bingo) transition-all hover:shadow-md",
-                isActive ? "bg-(--bg-color-bingo)/20 ring-2 ring-(--bg-color-bingo)" : "bg-(--bg-color-bingo)/5"
-                // { "bg-(--bg-color-bingo)/10 border-2 ring-1 ring-(--bg-color-bingo)": isActive }
+                "group relative flex flex-col gap-3 p-4 mb-4 rounded-xl transition-all hover:shadow-md border-2",
+                // ring 대신 border 색상 변경으로 통일 (충돌 방지)
+                isActive
+                    ? "border-(--bg-color-bingo) bg-(--bg-color-bingo)/20"
+                    : "border-(--border-color-bingo) bg-[#FAFAFA]"
             )}
         >
             <div className="flex justify-between items-center">
@@ -56,43 +78,54 @@ function BingoListItem({
                     <button
                         onClick={(e) => {
                             e.stopPropagation();
+                            // 켜질 때 초기화
+                            if (!isEditing) { setTitle(board.title || ""); }
                             setIsEditing(!isEditing);
-                            if(!isEditing) {setTitle(board.title);}
                         }}
+                        // ✨ [핵심] 버튼 누를 때 Input의 Blur(저장)가 먼저 터지는 것 방지
                         onMouseDown={(e) => e.preventDefault()}
-                        className="p-1.5 text-gray-400 hover:bg-gray-50 active:bg-gray-50 rounded-md transition-colors">
+                        className="p-1.5 text-gray-400 hover:bg-gray-50 active:bg-gray-50 rounded-md transition-colors"
+                    >
                         <FileEdit size={14} />
                     </button>
                     <button
                         onClick={(e) => { e.stopPropagation(); onDelete(); }}
                         className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-gray-50 active:text-red-500 active:bg-gray-50 rounded-md transition-colors"
-                        title="삭제">
+                        title="삭제"
+                    >
                         <Trash2 size={14} />
                     </button>
                 </div>
             </div>
 
-            <div onClick={isEditing ? undefined : onSelect} className="cursor-pointer">
-                {isEditing ? (
-                    <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
-                        <input
-                            type="text"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            onKeyDown={handleKeyDown}
-                            onBlur={handleUpdate}
-                            placeholder={title}
-                            className="w-full rounded focus:outline-none min-h-6"
-                            autoFocus
-                        />
-                    </div>
-                ) : (
-                    <h3 className="font-semibold text-gray-900 truncate pr-2">
-                        {board.title}
-                    </h3>
-                )}
+            <div 
+                // 수정 중이 아닐 때만(disabled 상태) 클릭 시 이동
+                onClick={!isEditing ? onSelect : undefined} 
+                className="cursor-pointer"
+            >
+                {/* 높이 고정 컨테이너 */}
+                <div className="relative h-7 w-full">
+                    {/* ✨ [핵심] H3 태그 삭제! 하나의 Input으로 껐다 켰다 처리 */}
+                    <input
+                        ref={inputRef}
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        onBlur={handleUpdate}
+                        disabled={!isEditing} 
+                        placeholder={board.title}
+                        className={clsx(
+                            "w-full h-full bg-transparent border-none outline-none p-0 m-0",
+                            "text-[16px] md:text-sm font-semibold text-gray-900 font-inherit leading-[28px]",
+                            "appearance-none focus:ring-0 placeholder:text-gray-400",
+                            "disabled:opacity-100 disabled:cursor-pointer disabled:bg-transparent disabled:text-gray-900"
+                        )}
+                    />
+                </div>
+
                 <p className="text-xs text-gray-500 mt-1">
-                    {format(new Date(board.updatedAt), "yyyy. MM. dd.", { locale: ko })}
+                    {board.updatedAt ? format(new Date(board.updatedAt), "yyyy. MM. dd.", { locale: ko }) : "-"}
                 </p>
             </div>
 
