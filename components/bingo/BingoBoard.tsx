@@ -8,6 +8,7 @@ import { BingoItem } from "@/types/bingo";
 import { useBingoListener } from "@/hooks/useBingoListener";
 import { useBoardControl } from "@/hooks/useBoardControl";
 import { Button } from "../ui/button";
+import { BingoSkeleton } from "../common/BingoSkeleton";
 
 type Props = {
     boardId: string
@@ -65,6 +66,9 @@ export default function BingoBoard({ boardId }: Props) {
     const handleToggleComplete = (id: string) => { toggleCompleted(id); };
     const handleDeleteItem = (id: string) => { deleteItem(id); };
 
+    if (!board || !board.items) {
+        return <BingoSkeleton />;
+    }
     return (
         <div className="grid gap-4 grid-cols-3 min-h-full">
             {board?.items.map((item) => (
