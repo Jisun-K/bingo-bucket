@@ -18,6 +18,7 @@ export function useBoardControl() {
         if (pathName.includes(boardId)) {
             const nextActiveId = useBingoStore.getState().lastActiveBoardId;
 
+            // router.replace(nextActiveId ? `/bingo/${nextActiveId}` : '/');
             if (nextActiveId) {
                 router.replace(`/bingo/${nextActiveId}`);
             } else {

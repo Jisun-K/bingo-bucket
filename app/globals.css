@@ -127,4 +127,9 @@
   button {
     @apply cursor-pointer outline-0;
   }
+
+  input, textarea, select {
+    @apply text-[16px] md:text-sm; 
+  }
+  
 }
