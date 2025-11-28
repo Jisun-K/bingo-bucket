@@ -53,7 +53,12 @@ export default function BingoListItem({
 
                 <div className="flex gap-1">
                     <button
-                        onClick={(e) => { e.stopPropagation(); setIsEditing(!isEditing); }}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setIsEditing(!isEditing);
+                            if(!isEditing) {setTitle(board.title);}
+                        }}
+                        onMouseDown={(e) => e.preventDefault()}
                         className="p-1.5 text-gray-400 hover:bg-gray-50 rounded-md transition-colors">
                         <FileEdit size={14} />
                     </button>
@@ -76,7 +81,7 @@ export default function BingoListItem({
                             onKeyDown={handleKeyDown}
                             onBlur={handleUpdate}
                             placeholder={title}
-                            className="w-full px-2 py-1 border rounded focus:outline-none border-none"
+                            className="w-full rounded focus:outline-none min-h-6"
                             autoFocus
                         />
                     </div>
@@ -85,7 +90,7 @@ export default function BingoListItem({
                         {board.title}
                     </h3>
                 )}
-{/* 
+                {/* 
                 <p className="text-xs text-gray-500 mt-1">
                     {board.updatedAt}
                 </p> */}
